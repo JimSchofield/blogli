@@ -1,20 +1,21 @@
 import fs from "fs";
 import path from "path";
-import { Config } from ".";
 import { removeExtension } from "./util";
+import { Config } from "./getConfig";
 
-interface Item {
+export interface Item {
   filename: string;
   slug: string;
   sourcePath: string;
   targetPath: string;
 }
 
-interface Collection {
+export interface Collection {
   name: string;
   paths: {
     targetDir: string;
     sourceDir: string;
+    templates?: string;
   };
   items: Item[];
 }
@@ -22,7 +23,13 @@ interface Collection {
 const buildItems = (sourceDir: string, targetDir: string): Item[] => {
   const files = fs.readdirSync(sourceDir);
 
-  const items = files.map((item) => {
+  /*
+   * In the future I might want to configure where files are retrieved
+   * by different extensions, but for now we're going to stick to `.md`
+   */
+  const items = files
+  .filter((item) => item.includes(".md"))
+  .map((item) => {
     const slug = removeExtension(item);
 
     return {
@@ -46,9 +53,20 @@ export const createCollection = (config: Config, name: string): Collection => {
     paths: {
       sourceDir,
       targetDir,
+      templates: config.paths.templates,
     },
     items,
   };
 
   return collection;
+};
+
+export const getCollections = (config: Config): Collection[] => {
+  const collections: Collection[] = config.collections.include.map(
+    (collection) => {
+      return createCollection(config, collection);
+    }
+  );
+
+  return collections;
 };
