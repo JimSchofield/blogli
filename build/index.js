@@ -10,4 +10,4 @@ var render_1 = require("./render");
 var __CWD = process.cwd();
 var config = getConfig_1.default(__CWD);
 var collections = preprocess_1.getCollections(config);
-render_1.renderCollections(collections);
+render_1.renderCollections(config, collections);

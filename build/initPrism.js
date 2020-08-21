@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,62 +58,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.renderCollections = exports.renderCollection = void 0;
-var fs_1 = __importDefault(require("fs"));
-var markdown_it_1 = __importDefault(require("markdown-it"));
-var initPrism_1 = __importDefault(require("./initPrism"));
-var createRenderer = function (config) { return __awaiter(void 0, void 0, void 0, function () {
-    function getHighlight(str, lang) {
-        if (Boolean(config.prismjs) && lang !== "") {
-            var formatted = "";
-            try {
-                formatted = Prism.highlight(str, Prism.languages[lang], lang);
-            }
-            catch (e) {
-                console.error("ABORTED: There was an error using Prism to highlight the language '" + lang + "'\nPlease make sure this language is included in your Blogli config under 'prismjs.languages'");
-            }
-            return formatted;
-        }
-        // If no formatter or lang
-        return "";
-    }
-    var Prism;
+var prismjs_1 = __importDefault(require("prismjs"));
+exports.default = (function (config) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, initPrism_1.default(config)];
-            case 1:
-                Prism = _a.sent();
-                return [2 /*return*/, markdown_it_1.default({
-                        html: true,
-                        linkify: true,
-                        highlight: getHighlight,
-                    })];
+        if (config.prismjs) {
+            config.prismjs.languages.forEach(function (lang) { return __awaiter(void 0, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require("../node_modules/prismjs/components/prism-" + lang)); })];
+                        case 1:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            }); });
         }
+        return [2 /*return*/, prismjs_1.default];
     });
-}); };
-var writeFile = function (item, markup) {
-    if (!fs_1.default.existsSync(item.targetDir)) {
-        console.log("Creating target directory: " + item.targetDir);
-        fs_1.default.mkdirSync(item.targetDir, { recursive: true });
-    }
-    fs_1.default.writeFileSync(item.targetPath, markup, "utf8");
-};
-exports.renderCollection = function (collection, MD) {
-    collection.items.forEach(function (item) {
-        var itemContent = fs_1.default.readFileSync(item.sourcePath, "utf8");
-        var markup = MD.render(itemContent);
-        writeFile(item, markup);
-    });
-};
-exports.renderCollections = function (config, collections) { return __awaiter(void 0, void 0, void 0, function () {
-    var MD;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, createRenderer(config)];
-            case 1:
-                MD = _a.sent();
-                collections.forEach(function (coll) { return exports.renderCollection(coll, MD); });
-                return [2 /*return*/];
-        }
-    });
-}); };
+}); });

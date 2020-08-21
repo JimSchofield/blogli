@@ -8,5 +8,4 @@ const __CWD = process.cwd();
 
 const config = getConfig(__CWD);
 const collections = getCollections(config);
-
-renderCollections(collections);
+renderCollections(config, collections);

@@ -24,6 +24,9 @@ exports.default = (function (__CWD) {
             ? { templates: path_1.default.resolve(__CWD, initConfig.paths.templates) }
             : {})),
         collections: __assign({}, initConfig.collections),
+        prismjs: {
+            languages: initConfig.prismjs.languages,
+        },
     };
     return config;
 });

@@ -11,6 +11,9 @@ export interface Config {
   collections: {
     include: string[];
   };
+  prismjs?: {
+    languages: string[];
+  };
 }
 
 export default (__CWD: string): Config => {
@@ -32,6 +35,9 @@ export default (__CWD: string): Config => {
         : {}),
     },
     collections: { ...initConfig.collections },
+    prismjs: {
+      languages: initConfig.prismjs.languages,
+    },
   };
 
   return config;
