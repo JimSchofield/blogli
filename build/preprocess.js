@@ -22,6 +22,7 @@ var buildItems = function (sourceDir, targetDir) {
             slug: slug,
             sourcePath: path_1.default.resolve(sourceDir, item),
             targetPath: path_1.default.resolve(targetDir, slug + ".html"),
+            targetDir: path_1.default.resolve(targetDir),
         };
     });
     return items;

@@ -8,6 +8,7 @@ export interface Item {
   slug: string;
   sourcePath: string;
   targetPath: string;
+  targetDir: string;
 }
 
 export interface Collection {
@@ -28,17 +29,18 @@ const buildItems = (sourceDir: string, targetDir: string): Item[] => {
    * by different extensions, but for now we're going to stick to `.md`
    */
   const items = files
-  .filter((item) => item.includes(".md"))
-  .map((item) => {
-    const slug = removeExtension(item);
+    .filter((item) => item.includes(".md"))
+    .map((item) => {
+      const slug = removeExtension(item);
 
-    return {
-      filename: item,
-      slug,
-      sourcePath: path.resolve(sourceDir, item),
-      targetPath: path.resolve(targetDir, slug + ".html"),
-    };
-  });
+      return {
+        filename: item,
+        slug,
+        sourcePath: path.resolve(sourceDir, item),
+        targetPath: path.resolve(targetDir, slug + ".html"),
+        targetDir: path.resolve(targetDir),
+      };
+    });
   return items;
 };
 
