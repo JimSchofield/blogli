@@ -11,7 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "blogli": "build/index.js"
+    "blogli": "build/index.js",
+    "blogli-serve": "scripts/serve.js"
   },
   "author": "Jim Schofield",
   "license": "MIT",
@@ -31,6 +32,7 @@
   "dependencies": {
     "@types/markdown-it": "^10.0.2",
     "markdown-it": "^11.0.0",
-    "prismjs": "^1.21.0"
+    "prismjs": "^1.21.0",
+    "shelljs": "^0.8.4"
   }
 }

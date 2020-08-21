@@ -42,10 +42,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.renderCollections = exports.renderCollection = void 0;
 var fs_1 = __importDefault(require("fs"));
 var markdown_it_1 = __importDefault(require("markdown-it"));
+var path_1 = __importDefault(require("path"));
 var initPrism_1 = __importDefault(require("./initPrism"));
 var util_1 = require("./util");
 var createRenderer = function (config) { return __awaiter(void 0, void 0, void 0, function () {
     function getHighlight(str, lang) {
+        var wrapStr = function (s) {
+            var langStr = lang ? lang : "";
+            return "<pre class=\"language-" + langStr + "\"><code class=\"language-" + langStr + "\">" + s + "</code></pre>";
+        };
         if (Boolean(config.prismjs) && lang !== "") {
             var formatted = "";
             try {
@@ -54,10 +59,10 @@ var createRenderer = function (config) { return __awaiter(void 0, void 0, void 0
             catch (e) {
                 console.error("ABORTED: There was an error using Prism to highlight the language '" + lang + "'\nPlease make sure this language is included in your Blogli config under 'prismjs.languages'");
             }
-            return formatted;
+            return wrapStr(formatted);
         }
         // If no formatter or lang
-        return "";
+        return wrapStr(str);
     }
     var Prism;
     return __generator(this, function (_a) {
@@ -77,11 +82,18 @@ var writeFile = function (item, markup) {
     util_1.upsertDir(item.targetDir);
     fs_1.default.writeFileSync(item.targetPath, markup, "utf8");
 };
-exports.renderCollection = function (collection, MD) {
+exports.renderCollection = function (config, collection, MD) {
     collection.items.forEach(function (item) {
         var itemContent = fs_1.default.readFileSync(item.sourcePath, "utf8");
         var markup = MD.render(itemContent);
-        writeFile(item, markup);
+        var result = markup;
+        var templatesDir = config.paths.templates;
+        if (templatesDir) {
+            var template = "site.html";
+            var templateContent = fs_1.default.readFileSync(path_1.default.resolve(templatesDir, template), "utf-8");
+            result = util_1.replaceByToken(templateContent, "content", markup);
+        }
+        writeFile(item, result);
     });
 };
 exports.renderCollections = function (config, collections) { return __awaiter(void 0, void 0, void 0, function () {
@@ -91,7 +103,7 @@ exports.renderCollections = function (config, collections) { return __awaiter(vo
             case 0: return [4 /*yield*/, createRenderer(config)];
             case 1:
                 MD = _a.sent();
-                collections.forEach(function (coll) { return exports.renderCollection(coll, MD); });
+                collections.forEach(function (coll) { return exports.renderCollection(config, coll, MD); });
                 return [2 /*return*/];
         }
     });
