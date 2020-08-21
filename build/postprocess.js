@@ -39,59 +39,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.renderCollections = exports.renderCollection = void 0;
+exports.processAssets = void 0;
 var fs_1 = __importDefault(require("fs"));
-var markdown_it_1 = __importDefault(require("markdown-it"));
-var initPrism_1 = __importDefault(require("./initPrism"));
+var path_1 = __importDefault(require("path"));
 var util_1 = require("./util");
-var createRenderer = function (config) { return __awaiter(void 0, void 0, void 0, function () {
-    function getHighlight(str, lang) {
-        if (Boolean(config.prismjs) && lang !== "") {
-            var formatted = "";
-            try {
-                formatted = Prism.highlight(str, Prism.languages[lang], lang);
-            }
-            catch (e) {
-                console.error("ABORTED: There was an error using Prism to highlight the language '" + lang + "'\nPlease make sure this language is included in your Blogli config under 'prismjs.languages'");
-            }
-            return formatted;
-        }
-        // If no formatter or lang
-        return "";
-    }
-    var Prism;
+var copyCSSAssets = function (config) { return __awaiter(void 0, void 0, void 0, function () {
+    var theme, prismPath, themeCSS;
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, initPrism_1.default(config)];
-            case 1:
-                Prism = _a.sent();
-                return [2 /*return*/, markdown_it_1.default({
-                        html: true,
-                        linkify: true,
-                        highlight: getHighlight,
-                    })];
+        theme = config.prismjs && config.prismjs.theme;
+        if (!theme) {
+            return [2 /*return*/];
         }
+        prismPath = path_1.default.dirname(require.resolve("prismjs"));
+        themeCSS = fs_1.default.readFileSync(prismPath + "/themes/prism-" + theme + ".css", "utf8");
+        util_1.upsertDir(config.paths.targetAssetsDir);
+        fs_1.default.writeFileSync(path_1.default.resolve(config.paths.targetAssetsDir, "prism.css"), themeCSS);
+        return [2 /*return*/];
     });
 }); };
-var writeFile = function (item, markup) {
-    util_1.upsertDir(item.targetDir);
-    fs_1.default.writeFileSync(item.targetPath, markup, "utf8");
-};
-exports.renderCollection = function (collection, MD) {
-    collection.items.forEach(function (item) {
-        var itemContent = fs_1.default.readFileSync(item.sourcePath, "utf8");
-        var markup = MD.render(itemContent);
-        writeFile(item, markup);
-    });
-};
-exports.renderCollections = function (config, collections) { return __awaiter(void 0, void 0, void 0, function () {
-    var MD;
+exports.processAssets = function (config) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, createRenderer(config)];
+            case 0: return [4 /*yield*/, copyCSSAssets(config)];
             case 1:
-                MD = _a.sent();
-                collections.forEach(function (coll) { return exports.renderCollection(coll, MD); });
+                _a.sent();
                 return [2 /*return*/];
         }
     });

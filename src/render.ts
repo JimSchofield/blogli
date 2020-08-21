@@ -1,10 +1,10 @@
 import fs from "fs";
-
 import MarkdownIt from "markdown-it";
 
-import { Collection, Item } from "./preprocess";
 import { Config } from "./getConfig";
 import initPrism from "./initPrism";
+import { Collection, Item } from "./preprocess";
+import { upsertDir } from "./util";
 
 const createRenderer = async (config: Config): Promise<MarkdownIt> => {
   const Prism = await initPrism(config);
@@ -33,10 +33,7 @@ Please make sure this language is included in your Blogli config under 'prismjs.
 };
 
 const writeFile = (item: Item, markup: string): void => {
-  if (!fs.existsSync(item.targetDir)) {
-    console.log("Creating target directory: " + item.targetDir);
-    fs.mkdirSync(item.targetDir, { recursive: true });
-  }
+  upsertDir(item.targetDir);
   fs.writeFileSync(item.targetPath, markup, "utf8");
 };
 
