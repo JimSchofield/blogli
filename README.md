@@ -43,7 +43,6 @@ A simple static site generator.
 ```
 
 ### TODO:
-
 - [x] Asset config for public assets
 - [ ] Templates:
     - [ ] flexible enough for collection index pages
