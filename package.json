@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@types/markdown-it": "^10.0.2",
+    "@types/shelljs": "^0.8.8",
     "markdown-it": "^11.0.0",
     "prismjs": "^1.21.0",
     "shelljs": "^0.8.4"

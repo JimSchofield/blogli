@@ -6,6 +6,7 @@ export interface Config {
     cwd: string;
     targetDir: string;
     sourceDir: string;
+    sourceAssetsDir: string;
     targetAssetsDir: string;
     templates?: string;
   };
@@ -37,6 +38,9 @@ export default (__CWD: string): Config => {
       ...(initConfig.paths.templates
         ? { templates: path.resolve(__CWD, initConfig.paths.templates) }
         : {}),
+      sourceAssetsDir: initConfig.sourceAssetsDir
+        ? path.resolve(initConfig.sourceAssetsDir)
+        : path.resolve("assets"),
       targetAssetsDir: initConfig.targetAssetsDir
         ? path.resolve(targetDir, initConfig.targetAssetsDir)
         : path.resolve(targetDir, "assets"),

@@ -43,10 +43,11 @@ A simple static site generator.
 ```
 
 ### TODO:
-- [ ] Create markdown-it configs (html, link thing, typographer thing)
+- [x] Asset config for public assets
 - [ ] Templates:
     - [ ] flexible enough for collection index pages
     - [ ] nested templates (header, footter?)
 - [ ] Index page for collections
 - [ ] Custom highlighting functions 
 - [ ] Checkbox parsing and rendering
+- [ ] Create markdown-it configs (html, link thing, typographer thing)

@@ -23,7 +23,9 @@ exports.default = (function (__CWD) {
     var config = {
         paths: __assign(__assign({ cwd: __CWD, targetDir: targetDir, sourceDir: path_1.default.resolve(__CWD, initConfig.paths.sourceDir) }, (initConfig.paths.templates
             ? { templates: path_1.default.resolve(__CWD, initConfig.paths.templates) }
-            : {})), { targetAssetsDir: initConfig.targetAssetsDir
+            : {})), { sourceAssetsDir: initConfig.sourceAssetsDir
+                ? path_1.default.resolve(initConfig.sourceAssetsDir)
+                : path_1.default.resolve("assets"), targetAssetsDir: initConfig.targetAssetsDir
                 ? path_1.default.resolve(targetDir, initConfig.targetAssetsDir)
                 : path_1.default.resolve(targetDir, "assets") }),
         collections: __assign({}, initConfig.collections),

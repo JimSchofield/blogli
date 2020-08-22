@@ -10,7 +10,10 @@ const __CWD = process.cwd();
 
 const config = getConfig(__CWD);
 const collections = getCollections(config);
-renderCollections(config, collections);
-processAssets(config);
 
-summarize(config, collections);
+async function main() {
+  await renderCollections(config, collections);
+  await processAssets(config);
+  summarize(config, collections);
+}
+main();

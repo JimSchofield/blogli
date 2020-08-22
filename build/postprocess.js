@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.processAssets = void 0;
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
+var shelljs_1 = __importDefault(require("shelljs"));
 var util_1 = require("./util");
 var copyCSSAssets = function (config) { return __awaiter(void 0, void 0, void 0, function () {
     var theme, prismPath, themeCSS;
@@ -57,12 +58,20 @@ var copyCSSAssets = function (config) { return __awaiter(void 0, void 0, void 0,
         return [2 /*return*/];
     });
 }); };
+var copyStaticAssets = function (config) {
+    var from = config.paths.sourceAssetsDir;
+    var to = config.paths.targetAssetsDir;
+    console.log("Copying assets from " + from + " to " + to);
+    util_1.upsertDir(to);
+    shelljs_1.default.cp("-R", from, to);
+};
 exports.processAssets = function (config) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, copyCSSAssets(config)];
             case 1:
                 _a.sent();
+                copyStaticAssets(config);
                 return [2 /*return*/];
         }
     });
