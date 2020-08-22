@@ -42,12 +42,20 @@ A simple static site generator.
 }
 ```
 
+### Commands
+Until this project is put on npm, clone to your computer and install/link by running `npm install` and `npm link`
+
+To build your blogli site, use `blogli` in the root of your site directory (where `blogli.json` is).
+
+To build and server your output folder, run `blogli-serve`
+
 ### TODO:
 - [x] Asset config for public assets
 - [ ] Templates:
     - [ ] flexible enough for collection index pages
     - [ ] nested templates (header, footter?)
 - [ ] Index page for collections
+- [ ] Default project generator
 - [ ] Custom highlighting functions 
 - [ ] Checkbox parsing and rendering
 - [ ] Create markdown-it configs (html, link thing, typographer thing)
