@@ -1,10 +1,10 @@
 import fs from "fs";
 import MarkdownIt from "markdown-it";
-import path from "path";
 import { Config } from "./getConfig";
 import initPrism from "./initPrism";
 import { Collection, Item } from "./preprocess";
-import { upsertDir, replaceByToken } from "./util";
+import { upsertDir, getMeta } from "./util";
+import { applyTemplate } from "./templating";
 
 const createRenderer = async (config: Config): Promise<MarkdownIt> => {
   const Prism = await initPrism(config);
@@ -47,23 +47,11 @@ export const renderCollection = (
   collection: Collection,
   MD: MarkdownIt
 ): void => {
-  collection.items.forEach((item) => {
+  collection.items.forEach(async (item) => {
     const itemContent = fs.readFileSync(item.sourcePath, "utf8");
-    const markup = MD.render(itemContent);
-
-    let result = markup;
-
-    const templatesDir = config.paths.templates;
-    if (templatesDir) {
-      const template = "site.html";
-      const templateContent = fs.readFileSync(
-        path.resolve(templatesDir, template),
-        "utf-8"
-      );
-
-      result = replaceByToken(templateContent, "content", markup);
-    }
-
+    const { content, meta } = getMeta(itemContent);
+    const markup = MD.render(content);
+    const result = await applyTemplate(config, item, markup, meta);
     writeFile(item, result);
   });
 };

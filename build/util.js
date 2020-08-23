@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.summarize = exports.replaceByToken = exports.splitByToken = exports.upsertDir = exports.removeExtension = void 0;
+exports.summarize = exports.replaceByToken = exports.splitByToken = exports.getMeta = exports.upsertDir = exports.removeExtension = void 0;
 var fs_1 = __importDefault(require("fs"));
 exports.removeExtension = function (filename) {
     if (!filename.includes(".")) {
@@ -16,6 +16,37 @@ exports.upsertDir = function (dir) {
         console.log("Creating target directory: " + dir);
         fs_1.default.mkdirSync(dir, { recursive: true });
     }
+};
+/*
+ * Files may begin by including some meta information about the item
+ * in json.  This needs to be split from the actual markdown before
+ * converting to markup.
+ */
+exports.getMeta = function (rawContent) {
+    if (rawContent.trim().startsWith("{")) {
+        var contentLineArray = rawContent.split("\n");
+        var jsonEndIndex = contentLineArray.indexOf("}");
+        var meta = contentLineArray
+            .slice(0, jsonEndIndex + 1)
+            .join("\n")
+            .trim();
+        var content = contentLineArray
+            .slice(jsonEndIndex + 1)
+            .join("\n")
+            .trim();
+        var metaObject = void 0;
+        try {
+            metaObject = JSON.parse(meta);
+        }
+        catch (e) {
+            throw new Error("Error parsing meta data for the following meta: " + metaObject);
+        }
+        return {
+            meta: metaObject,
+            content: content,
+        };
+    }
+    return { content: rawContent, meta: {} };
 };
 exports.splitByToken = function (source, token) {
     var tokenRegex = new RegExp("{{\\s(" + token + ")\\s}}", "g");

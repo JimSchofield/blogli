@@ -2,6 +2,10 @@ import fs from "fs";
 import path from "path";
 
 export interface Config {
+  templateMeta: {
+    assetsDir: string;
+    siteTitle: string;
+  };
   paths: {
     cwd: string;
     targetDir: string;
@@ -30,6 +34,12 @@ export default (__CWD: string): Config => {
   const targetDir = path.resolve(__CWD, initConfig.paths.targetDir);
 
   const config: Config = {
+    templateMeta: {
+      assetsDir: initConfig.paths.targetAssetsDir
+        ? initConfig.paths.targetAssetsDir
+        : "assets",
+      siteTitle: initConfig.title ? initConfig.title : "My Blogli Site!",
+    },
     paths: {
       cwd: __CWD,
       targetDir,

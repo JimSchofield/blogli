@@ -42,9 +42,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.renderCollections = exports.renderCollection = void 0;
 var fs_1 = __importDefault(require("fs"));
 var markdown_it_1 = __importDefault(require("markdown-it"));
-var path_1 = __importDefault(require("path"));
 var initPrism_1 = __importDefault(require("./initPrism"));
 var util_1 = require("./util");
+var templating_1 = require("./templating");
 var createRenderer = function (config) { return __awaiter(void 0, void 0, void 0, function () {
     function getHighlight(str, lang) {
         var wrapStr = function (s) {
@@ -83,18 +83,22 @@ var writeFile = function (item, markup) {
     fs_1.default.writeFileSync(item.targetPath, markup, "utf8");
 };
 exports.renderCollection = function (config, collection, MD) {
-    collection.items.forEach(function (item) {
-        var itemContent = fs_1.default.readFileSync(item.sourcePath, "utf8");
-        var markup = MD.render(itemContent);
-        var result = markup;
-        var templatesDir = config.paths.templates;
-        if (templatesDir) {
-            var template = "site.html";
-            var templateContent = fs_1.default.readFileSync(path_1.default.resolve(templatesDir, template), "utf-8");
-            result = util_1.replaceByToken(templateContent, "content", markup);
-        }
-        writeFile(item, result);
-    });
+    collection.items.forEach(function (item) { return __awaiter(void 0, void 0, void 0, function () {
+        var itemContent, _a, content, meta, markup, result;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    itemContent = fs_1.default.readFileSync(item.sourcePath, "utf8");
+                    _a = util_1.getMeta(itemContent), content = _a.content, meta = _a.meta;
+                    markup = MD.render(content);
+                    return [4 /*yield*/, templating_1.applyTemplate(config, item, markup, meta)];
+                case 1:
+                    result = _b.sent();
+                    writeFile(item, result);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 };
 exports.renderCollections = function (config, collections) { return __awaiter(void 0, void 0, void 0, function () {
     var MD;

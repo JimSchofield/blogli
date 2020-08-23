@@ -16,6 +16,44 @@ export const upsertDir = (dir: string): void => {
   }
 };
 
+/*
+ * Files may begin by including some meta information about the item
+ * in json.  This needs to be split from the actual markdown before
+ * converting to markup.
+ */
+export const getMeta = (
+  rawContent: string
+): { content: string; meta: Record<string, string> } => {
+  if (rawContent.trim().startsWith("{")) {
+    const contentLineArray = rawContent.split("\n");
+    const jsonEndIndex = contentLineArray.indexOf("}");
+    const meta = contentLineArray
+      .slice(0, jsonEndIndex + 1)
+      .join("\n")
+      .trim();
+    const content = contentLineArray
+      .slice(jsonEndIndex + 1)
+      .join("\n")
+      .trim();
+
+    let metaObject;
+    try {
+      metaObject = JSON.parse(meta);
+    } catch (e) {
+      throw new Error(
+        "Error parsing meta data for the following meta: " + metaObject
+      );
+    }
+
+    return {
+      meta: metaObject,
+      content: content,
+    };
+  }
+
+  return { content: rawContent, meta: {} };
+};
+
 export const splitByToken = (source: string, token: string): string[] => {
   const tokenRegex = new RegExp(`{{\\s(${token})\\s}}`, "g");
   return source.split(tokenRegex);

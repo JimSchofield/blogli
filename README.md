@@ -51,6 +51,7 @@ To build and server your output folder, run `blogli-serve`
 
 ### TODO:
 - [x] Asset config for public assets
+- [ ] Pages
 - [ ] Templates:
     - [ ] flexible enough for collection index pages
     - [ ] nested templates (header, footter?)
