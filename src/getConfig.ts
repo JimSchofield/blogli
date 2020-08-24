@@ -33,6 +33,9 @@ export default (__CWD: string): Config => {
 
   const targetDir = path.resolve(__CWD, initConfig.paths.targetDir);
 
+  console.log(initConfig);
+  console.log(initConfig.sourceAssetsDir)
+
   const config: Config = {
     templateMeta: {
       assetsDir: initConfig.paths.targetAssetsDir
@@ -48,11 +51,11 @@ export default (__CWD: string): Config => {
       ...(initConfig.paths.templates
         ? { templates: path.resolve(__CWD, initConfig.paths.templates) }
         : {}),
-      sourceAssetsDir: initConfig.sourceAssetsDir
-        ? path.resolve(initConfig.sourceAssetsDir)
+      sourceAssetsDir: initConfig.paths.sourceAssetsDir
+        ? path.resolve(__CWD, initConfig.paths.sourceAssetsDir)
         : path.resolve("assets"),
-      targetAssetsDir: initConfig.targetAssetsDir
-        ? path.resolve(targetDir, initConfig.targetAssetsDir)
+      targetAssetsDir: initConfig.paths.targetAssetsDir
+        ? path.resolve(targetDir, initConfig.paths.targetAssetsDir)
         : path.resolve(targetDir, "assets"),
     },
     collections: { ...initConfig.collections },

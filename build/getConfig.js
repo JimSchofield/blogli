@@ -20,6 +20,8 @@ exports.default = (function (__CWD) {
     var configFile = fs_1.default.readFileSync(path_1.default.resolve(__CWD, "blogli.json"), "utf8");
     var initConfig = JSON.parse(configFile);
     var targetDir = path_1.default.resolve(__CWD, initConfig.paths.targetDir);
+    console.log(initConfig);
+    console.log(initConfig.sourceAssetsDir);
     var config = {
         templateMeta: {
             assetsDir: initConfig.paths.targetAssetsDir
@@ -29,10 +31,10 @@ exports.default = (function (__CWD) {
         },
         paths: __assign(__assign({ cwd: __CWD, targetDir: targetDir, sourceDir: path_1.default.resolve(__CWD, initConfig.paths.sourceDir) }, (initConfig.paths.templates
             ? { templates: path_1.default.resolve(__CWD, initConfig.paths.templates) }
-            : {})), { sourceAssetsDir: initConfig.sourceAssetsDir
-                ? path_1.default.resolve(initConfig.sourceAssetsDir)
-                : path_1.default.resolve("assets"), targetAssetsDir: initConfig.targetAssetsDir
-                ? path_1.default.resolve(targetDir, initConfig.targetAssetsDir)
+            : {})), { sourceAssetsDir: initConfig.paths.sourceAssetsDir
+                ? path_1.default.resolve(__CWD, initConfig.paths.sourceAssetsDir)
+                : path_1.default.resolve("assets"), targetAssetsDir: initConfig.paths.targetAssetsDir
+                ? path_1.default.resolve(targetDir, initConfig.paths.targetAssetsDir)
                 : path_1.default.resolve(targetDir, "assets") }),
         collections: __assign({}, initConfig.collections),
         prismjs: __assign({}, initConfig.prismjs),

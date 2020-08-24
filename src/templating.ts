@@ -17,7 +17,6 @@ export const applyTemplate = async (
       path.resolve(config.paths.cwd, "templates/site.js")
     );
 
-    console.log(config);
     markupAfterTemplates = templateFunction(config.templateMeta)({
       content: markup,
       meta,

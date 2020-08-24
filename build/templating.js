@@ -71,7 +71,6 @@ exports.applyTemplate = function (config, item, markup, meta) { return __awaiter
                 return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require(path_1.default.resolve(config.paths.cwd, "templates/site.js"))); })];
             case 1:
                 templateFunction = (_a.sent()).default;
-                console.log(config);
                 markupAfterTemplates = templateFunction(config.templateMeta)({
                     content: markup,
                     meta: meta,
