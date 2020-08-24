@@ -63,14 +63,14 @@ To build your blogli site, use `blogli` in the root of your site directory (wher
 To build and server your output folder, run `blogli-serve`
 
 ### TODO:
-- [x] Asset config for public assets
 - [ ] Pages
 - [ ] Templates:
     - [ ] flexible enough for collection index pages
     - [ ] nested templates (header, footer?)
     - [ ] Need to find common strategy to pass meta, content, siteMeta
-- [x] Index page for collections
 - [ ] Default project generator
 - [ ] Custom highlighting functions 
 - [ ] Checkbox parsing and rendering
 - [ ] Create markdown-it configs (html, link thing, typographer thing)
+- [x] Index page for collections
+- [x] Asset config for public assets
