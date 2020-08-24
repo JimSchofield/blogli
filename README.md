@@ -11,25 +11,34 @@ A simple static site generator.
 
 ### Site Structure
 ```
+.
 ├── blogli.json
 ├── content
+│  ├── assets
+│  │  └── test.css
 │  ├── blog
 │  │  ├── 2020-08-15.md
-│  │  └── 2020-08-16.md
+│  │  ├── 2020-08-16.md
+│  │  └── index.md
 │  └── posts
-│     ├── about.md
-│     └── home.md
+│     ├── 2020-08-15.md
+│     └── 2020-08-17.md
 └── templates
-   └── site.html
+   ├── footer.js
+   ├── header.js
+   ├── indexPages.js
+   └── site.js
 ```
 
 ### Blogli Config (`blogli.json`)
 ```json
 {
+  "title": "Blogli site!",
   "paths": {
     "targetDir": "output",
     "sourceDir": "content",
     "templates": "templates",
+    "sourceAssetsDir": "content/assets",
     "targetAssetsDir": "assets"
   },
   "collections": {
@@ -41,6 +50,8 @@ A simple static site generator.
   }
 }
 ```
+
+All paths are relative to where you run blogli with the exception of `targetAssetsDir`.  `targetAssetsDir` is relative to `targetDir`, so that the assets path can be used directly in linking css, js, or other assets in the rendered html.
 
 ### Commands
 Until this project is put on npm, clone to your computer and install/link by running `npm install` and `npm link`
@@ -54,8 +65,9 @@ To build and server your output folder, run `blogli-serve`
 - [ ] Pages
 - [ ] Templates:
     - [ ] flexible enough for collection index pages
-    - [ ] nested templates (header, footter?)
-- [ ] Index page for collections
+    - [ ] nested templates (header, footer?)
+    - [ ] Need to find common strategy to pass meta, content, siteMeta
+- [x] Index page for collections
 - [ ] Default project generator
 - [ ] Custom highlighting functions 
 - [ ] Checkbox parsing and rendering
