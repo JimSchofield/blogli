@@ -9,6 +9,8 @@ A simple static site generator.
 
 ## Example:
 
+See https://github.com/JimSchofield/blogli-test-setup for an example project config and templates.
+
 ### Site Structure
 ```
 .
