@@ -57,7 +57,7 @@ var createRenderer = function (config) { return __awaiter(void 0, void 0, void 0
                 formatted = Prism.highlight(str, Prism.languages[lang], lang);
             }
             catch (e) {
-                console.error("ABORTED: There was an error using Prism to highlight the language '" + lang + "'\nPlease make sure this language is included in your Blogli config under 'prismjs.languages'");
+                console.error("ABORTED: There was an error using Prism to highlight the language '" + lang + "'\n                      Please make sure this language is included in your Blogli config under 'prismjs.languages'");
             }
             return wrapStr(formatted);
         }
@@ -82,24 +82,58 @@ var writeFile = function (item, markup) {
     util_1.upsertDir(item.targetDir);
     fs_1.default.writeFileSync(item.targetPath, markup, "utf8");
 };
-exports.renderCollection = function (config, collection, MD) {
-    collection.items.forEach(function (item) { return __awaiter(void 0, void 0, void 0, function () {
-        var itemContent, _a, content, meta, markup, result;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    itemContent = fs_1.default.readFileSync(item.sourcePath, "utf8");
-                    _a = util_1.getMeta(itemContent), content = _a.content, meta = _a.meta;
-                    markup = MD.render(content);
-                    return [4 /*yield*/, templating_1.applyTemplate(config, item, markup, meta)];
-                case 1:
-                    result = _b.sent();
-                    writeFile(item, result);
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-};
+var renderItem = function (config, MD, item) { return __awaiter(void 0, void 0, void 0, function () {
+    var markup, result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                markup = MD.render(item.content);
+                return [4 /*yield*/, templating_1.applyTemplate(config, markup, item)];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, result];
+        }
+    });
+}); };
+var renderIndex = function (config, MD, item) { return __awaiter(void 0, void 0, void 0, function () {
+    var markup, result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                markup = MD.render(item.content);
+                return [4 /*yield*/, templating_1.applyTemplateToIndex(config, markup, item)];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, result];
+        }
+    });
+}); };
+exports.renderCollection = function (config, collection, MD) { return __awaiter(void 0, void 0, void 0, function () {
+    var result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                // Render collections
+                collection.items.forEach(function (item) { return __awaiter(void 0, void 0, void 0, function () {
+                    var result;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, renderItem(config, MD, item)];
+                            case 1:
+                                result = _a.sent();
+                                writeFile(item, result);
+                                return [2 /*return*/];
+                        }
+                    });
+                }); });
+                return [4 /*yield*/, renderIndex(config, MD, collection.index)];
+            case 1:
+                result = _a.sent();
+                writeFile(collection.index, result);
+                return [2 /*return*/];
+        }
+    });
+}); };
 exports.renderCollections = function (config, collections) { return __awaiter(void 0, void 0, void 0, function () {
     var MD;
     return __generator(this, function (_a) {

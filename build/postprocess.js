@@ -59,12 +59,15 @@ var copyCSSAssets = function (config) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 var copyStaticAssets = function (config) {
-    var glob = config.paths.sourceAssetsDir.slice(-1) === "/" ? "**/*" : "/**/*";
+    // for some reason without globbing this was not copying as intended
+    var glob = config.paths.sourceAssetsDir.slice(-1) === "/" ? "*" : "/*";
     var from = config.paths.sourceAssetsDir + glob;
     var to = config.paths.targetAssetsDir;
     console.log("Copying assets from " + from + " to " + to);
     util_1.upsertDir(to);
-    shelljs_1.default.cp("-R", from, to);
+    // R = recursive
+    // u = only copy if source is newer
+    shelljs_1.default.cp("-Ru", from, to);
 };
 exports.processAssets = function (config) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {

@@ -2,9 +2,9 @@ import fs from "fs";
 import MarkdownIt from "markdown-it";
 import { Config } from "./getConfig";
 import initPrism from "./initPrism";
-import { Collection, Item } from "./preprocess";
-import { upsertDir, getMeta } from "./util";
-import { applyTemplate } from "./templating";
+import { Collection, Item, Index } from "./preprocess";
+import { upsertDir } from "./util";
+import { applyTemplate, applyTemplateToIndex } from "./templating";
 
 const createRenderer = async (config: Config): Promise<MarkdownIt> => {
   const Prism = await initPrism(config);
@@ -21,7 +21,7 @@ const createRenderer = async (config: Config): Promise<MarkdownIt> => {
         formatted = Prism.highlight(str, Prism.languages[lang], lang);
       } catch (e) {
         console.error(`ABORTED: There was an error using Prism to highlight the language '${lang}'
-Please make sure this language is included in your Blogli config under 'prismjs.languages'`);
+                      Please make sure this language is included in your Blogli config under 'prismjs.languages'`);
       }
       return wrapStr(formatted);
     }
@@ -42,18 +42,32 @@ const writeFile = (item: Item, markup: string): void => {
   fs.writeFileSync(item.targetPath, markup, "utf8");
 };
 
-export const renderCollection = (
+const renderItem = async (config: Config, MD: MarkdownIt, item: Item) => {
+  const markup = MD.render(item.content);
+  const result = await applyTemplate(config, markup, item);
+  return result;
+};
+
+const renderIndex = async (config: Config, MD: MarkdownIt, item: Index) => {
+  const markup = MD.render(item.content);
+  const result = await applyTemplateToIndex(config, markup, item);
+  return result;
+};
+
+export const renderCollection = async (
   config: Config,
   collection: Collection,
   MD: MarkdownIt
-): void => {
+): Promise<void> => {
+  // Render collections
   collection.items.forEach(async (item) => {
-    const itemContent = fs.readFileSync(item.sourcePath, "utf8");
-    const { content, meta } = getMeta(itemContent);
-    const markup = MD.render(content);
-    const result = await applyTemplate(config, item, markup, meta);
+    const result = await renderItem(config, MD, item);
     writeFile(item, result);
   });
+
+  // render index page
+  const result = await renderIndex(config, MD, collection.index);
+  writeFile(collection.index, result);
 };
 
 export const renderCollections = async (

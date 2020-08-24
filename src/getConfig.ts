@@ -33,9 +33,6 @@ export default (__CWD: string): Config => {
 
   const targetDir = path.resolve(__CWD, initConfig.paths.targetDir);
 
-  console.log(initConfig);
-  console.log(initConfig.sourceAssetsDir)
-
   const config: Config = {
     templateMeta: {
       assetsDir: initConfig.paths.targetAssetsDir

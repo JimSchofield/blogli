@@ -20,8 +20,6 @@ exports.default = (function (__CWD) {
     var configFile = fs_1.default.readFileSync(path_1.default.resolve(__CWD, "blogli.json"), "utf8");
     var initConfig = JSON.parse(configFile);
     var targetDir = path_1.default.resolve(__CWD, initConfig.paths.targetDir);
-    console.log(initConfig);
-    console.log(initConfig.sourceAssetsDir);
     var config = {
         templateMeta: {
             assetsDir: initConfig.paths.targetAssetsDir
