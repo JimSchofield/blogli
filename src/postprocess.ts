@@ -25,7 +25,9 @@ const copyCSSAssets = async (config: Config): Promise<void> => {
 };
 
 const copyStaticAssets = (config: Config): void => {
-  const from = config.paths.sourceAssetsDir;
+  const glob =
+    config.paths.sourceAssetsDir.slice(-1) === "/" ? "**/*" : "/**/*";
+  const from = config.paths.sourceAssetsDir + glob;
   const to = config.paths.targetAssetsDir;
   console.log(`Copying assets from ${from} to ${to}`);
   upsertDir(to);

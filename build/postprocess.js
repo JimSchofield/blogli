@@ -59,7 +59,8 @@ var copyCSSAssets = function (config) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 var copyStaticAssets = function (config) {
-    var from = config.paths.sourceAssetsDir;
+    var glob = config.paths.sourceAssetsDir.slice(-1) === "/" ? "**/*" : "/**/*";
+    var from = config.paths.sourceAssetsDir + glob;
     var to = config.paths.targetAssetsDir;
     console.log("Copying assets from " + from + " to " + to);
     util_1.upsertDir(to);
