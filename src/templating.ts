@@ -1,6 +1,6 @@
 import path from "path";
 import { Config } from "./getConfig";
-import { Item, Index } from "./preprocess";
+import { Item } from "./preprocess";
 
 export const applyTemplate = async (
   config: Config,
@@ -8,32 +8,35 @@ export const applyTemplate = async (
   itemToRender: Item
 ): Promise<string> => {
   const templatesDir = config.paths.templates;
+  const { meta } = itemToRender;
+  const { siteMeta } = config;
 
-  let markupAfterTemplates = markup;
+  console.log(itemToRender);
 
+  let finalMarkup = markup;
   if (templatesDir) {
     const { default: templateFunction } = await import(
       path.resolve(config.paths.cwd, "templates/site.js")
     );
 
-    markupAfterTemplates = templateFunction(config.templateMeta)({
-      content: markup,
-      meta: itemToRender,
-    });
+    finalMarkup = templateFunction(siteMeta, meta, markup);
   }
 
-  return markupAfterTemplates;
+  return finalMarkup;
 };
 
 export const applyTemplateToIndex = async (
   config: Config,
   markup: string,
-  itemToRender: Index
+  itemToRender: Item
 ): Promise<string> => {
   const templatesDir = config.paths.templates;
+  const { meta } = itemToRender;
+  const { siteMeta } = config;
 
-  let markupAfterTemplates = markup;
+  console.log(itemToRender);
 
+  let finalMarkup = markup;
   if (templatesDir) {
     const { default: templateFunction } = await import(
       path.resolve(config.paths.cwd, "templates/site.js")
@@ -43,14 +46,15 @@ export const applyTemplateToIndex = async (
       path.resolve(config.paths.cwd, "templates/indexPages.js")
     );
 
-    markupAfterTemplates = templateFunction(config.templateMeta)({
-      content: indexGenerator({
+    finalMarkup = templateFunction(
+      siteMeta,
+      meta,
+      indexGenerator({
         content: markup,
         itemIndex: itemToRender.itemIndex,
-      }),
-      meta: itemToRender.meta,
-    });
+      })
+    );
   }
 
-  return markupAfterTemplates;
+  return finalMarkup;
 };

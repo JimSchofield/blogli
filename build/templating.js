@@ -61,32 +61,35 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.applyTemplateToIndex = exports.applyTemplate = void 0;
 var path_1 = __importDefault(require("path"));
 exports.applyTemplate = function (config, markup, itemToRender) { return __awaiter(void 0, void 0, void 0, function () {
-    var templatesDir, markupAfterTemplates, templateFunction;
+    var templatesDir, meta, siteMeta, finalMarkup, templateFunction;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 templatesDir = config.paths.templates;
-                markupAfterTemplates = markup;
+                meta = itemToRender.meta;
+                siteMeta = config.siteMeta;
+                console.log(itemToRender);
+                finalMarkup = markup;
                 if (!templatesDir) return [3 /*break*/, 2];
                 return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require(path_1.default.resolve(config.paths.cwd, "templates/site.js"))); })];
             case 1:
                 templateFunction = (_a.sent()).default;
-                markupAfterTemplates = templateFunction(config.templateMeta)({
-                    content: markup,
-                    meta: itemToRender,
-                });
+                finalMarkup = templateFunction(siteMeta, meta, markup);
                 _a.label = 2;
-            case 2: return [2 /*return*/, markupAfterTemplates];
+            case 2: return [2 /*return*/, finalMarkup];
         }
     });
 }); };
 exports.applyTemplateToIndex = function (config, markup, itemToRender) { return __awaiter(void 0, void 0, void 0, function () {
-    var templatesDir, markupAfterTemplates, templateFunction, indexGenerator;
+    var templatesDir, meta, siteMeta, finalMarkup, templateFunction, indexGenerator;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 templatesDir = config.paths.templates;
-                markupAfterTemplates = markup;
+                meta = itemToRender.meta;
+                siteMeta = config.siteMeta;
+                console.log(itemToRender);
+                finalMarkup = markup;
                 if (!templatesDir) return [3 /*break*/, 3];
                 return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require(path_1.default.resolve(config.paths.cwd, "templates/site.js"))); })];
             case 1:
@@ -94,15 +97,12 @@ exports.applyTemplateToIndex = function (config, markup, itemToRender) { return 
                 return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require(path_1.default.resolve(config.paths.cwd, "templates/indexPages.js"))); })];
             case 2:
                 indexGenerator = (_a.sent()).default;
-                markupAfterTemplates = templateFunction(config.templateMeta)({
-                    content: indexGenerator({
-                        content: markup,
-                        itemIndex: itemToRender.itemIndex,
-                    }),
-                    meta: itemToRender.meta,
-                });
+                finalMarkup = templateFunction(siteMeta, meta, indexGenerator({
+                    content: markup,
+                    itemIndex: itemToRender.itemIndex,
+                }));
                 _a.label = 3;
-            case 3: return [2 /*return*/, markupAfterTemplates];
+            case 3: return [2 /*return*/, finalMarkup];
         }
     });
 }); };

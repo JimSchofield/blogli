@@ -31,6 +31,7 @@ var buildItems = function (sourceDir, targetDir) {
             targetDir: path_1.default.resolve(targetDir),
             meta: meta,
             content: content,
+            itemIndex: [],
         };
     });
     return items;

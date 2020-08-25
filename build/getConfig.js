@@ -21,7 +21,7 @@ exports.default = (function (__CWD) {
     var initConfig = JSON.parse(configFile);
     var targetDir = path_1.default.resolve(__CWD, initConfig.paths.targetDir);
     var config = {
-        templateMeta: {
+        siteMeta: {
             assetsDir: initConfig.paths.targetAssetsDir
                 ? initConfig.paths.targetAssetsDir
                 : "assets",

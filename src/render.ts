@@ -2,7 +2,7 @@ import fs from "fs";
 import MarkdownIt from "markdown-it";
 import { Config } from "./getConfig";
 import initPrism from "./initPrism";
-import { Collection, Item, Index } from "./preprocess";
+import { Collection, Item } from "./preprocess";
 import { upsertDir } from "./util";
 import { applyTemplate, applyTemplateToIndex } from "./templating";
 
@@ -48,7 +48,7 @@ const renderItem = async (config: Config, MD: MarkdownIt, item: Item) => {
   return result;
 };
 
-const renderIndex = async (config: Config, MD: MarkdownIt, item: Index) => {
+const renderIndex = async (config: Config, MD: MarkdownIt, item: Item) => {
   const markup = MD.render(item.content);
   const result = await applyTemplateToIndex(config, markup, item);
   return result;

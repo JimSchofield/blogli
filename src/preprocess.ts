@@ -3,6 +3,8 @@ import path from "path";
 import { removeExtension, getMeta } from "./util";
 import { Config } from "./getConfig";
 
+export type ItemIndex = Array<{ title: string; url: string }>;
+
 export interface Item {
   filename: string;
   title: string;
@@ -12,10 +14,6 @@ export interface Item {
   targetDir: string;
   meta: unknown;
   content: string;
-}
-
-export type ItemIndex = Array<{ title: string; url: string }>;
-export interface Index extends Item {
   itemIndex: ItemIndex;
 }
 
@@ -27,7 +25,7 @@ export interface Collection {
     templates?: string;
   };
   items: Item[];
-  index: Index;
+  index: Item;
 }
 
 const buildItems = (sourceDir: string, targetDir: string): Item[] => {
@@ -57,6 +55,7 @@ const buildItems = (sourceDir: string, targetDir: string): Item[] => {
         targetDir: path.resolve(targetDir),
         meta,
         content,
+        itemIndex: [],
       };
     });
   return items;
@@ -74,7 +73,7 @@ const buildIndex = (
   targetDir: string,
   name: string,
   items: Item[]
-): Index => {
+): Item => {
   // I don't know if there's a better way to do this, but many defaults need to be
   // in place if an index file doesn't exist
   const item = "index.md";

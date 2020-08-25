@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 export interface Config {
-  templateMeta: {
+  siteMeta: {
     assetsDir: string;
     siteTitle: string;
   };
@@ -34,7 +34,7 @@ export default (__CWD: string): Config => {
   const targetDir = path.resolve(__CWD, initConfig.paths.targetDir);
 
   const config: Config = {
-    templateMeta: {
+    siteMeta: {
       assetsDir: initConfig.paths.targetAssetsDir
         ? initConfig.paths.targetAssetsDir
         : "assets",
