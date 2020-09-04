@@ -43,28 +43,19 @@ var createIndex = function (items) {
     }); });
 };
 var buildIndex = function (sourceDir, targetDir, name, items) {
-    // I don't know if there's a better way to do this, but many defaults need to be
-    // in place if an index file doesn't exist
     var item = "index.md";
     var slug = "index";
     var sourcePath = path_1.default.resolve(sourceDir, item);
     var title = name + " Index";
-    var content;
-    var meta;
-    if (fs_1.default.existsSync(sourcePath)) {
-        var itemContent = fs_1.default.readFileSync(sourcePath, "utf8");
-        var result = util_1.getMeta(itemContent);
-        content = result.content;
-        meta = result.meta;
-        title = meta.title;
-    }
-    else {
-        content = "";
-        meta = { title: title };
-    }
+    var itemContent = fs_1.default.existsSync(sourcePath)
+        ? fs_1.default.readFileSync(sourcePath, "utf8")
+        : "";
+    var result = util_1.getMeta(itemContent, { title: title });
+    var content = result.content;
+    var meta = result.meta;
     return {
         filename: item,
-        title: title,
+        title: meta.title,
         slug: slug,
         sourcePath: sourcePath,
         targetPath: path_1.default.resolve(targetDir, slug + ".html"),

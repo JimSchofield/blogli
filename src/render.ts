@@ -4,7 +4,7 @@ import { Config } from "./getConfig";
 import initPrism from "./initPrism";
 import { Collection, Item } from "./preprocess";
 import { upsertDir } from "./util";
-import { applyTemplate, applyTemplateToIndex } from "./templating";
+import { applyTemplate } from "./templating";
 
 const createRenderer = async (config: Config): Promise<MarkdownIt> => {
   const Prism = await initPrism(config);
@@ -48,12 +48,6 @@ const renderItem = async (config: Config, MD: MarkdownIt, item: Item) => {
   return result;
 };
 
-const renderIndex = async (config: Config, MD: MarkdownIt, item: Item) => {
-  const markup = MD.render(item.content);
-  const result = await applyTemplateToIndex(config, markup, item);
-  return result;
-};
-
 export const renderCollection = async (
   config: Config,
   collection: Collection,
@@ -62,11 +56,13 @@ export const renderCollection = async (
   // Render collections
   collection.items.forEach(async (item) => {
     const result = await renderItem(config, MD, item);
+
     writeFile(item, result);
   });
 
   // render index page
-  const result = await renderIndex(config, MD, collection.index);
+  const result = await renderItem(config, MD, collection.index);
+
   writeFile(collection.index, result);
 };
 

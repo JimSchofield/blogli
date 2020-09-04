@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { removeExtension, getMeta } from "./util";
+import { removeExtension, getMeta, Meta } from "./util";
 import { Config } from "./getConfig";
 
 export type ItemIndex = Array<{ title: string; url: string }>;
@@ -12,7 +12,7 @@ export interface Item {
   sourcePath: string;
   targetPath: string;
   targetDir: string;
-  meta: unknown;
+  meta: Meta;
   content: string;
   itemIndex: ItemIndex;
 }
@@ -74,29 +74,21 @@ const buildIndex = (
   name: string,
   items: Item[]
 ): Item => {
-  // I don't know if there's a better way to do this, but many defaults need to be
-  // in place if an index file doesn't exist
   const item = "index.md";
   const slug = "index";
   const sourcePath = path.resolve(sourceDir, item);
-  let title = `${name} Index`;
-  let content;
-  let meta;
+  const title = `${name} Index`;
 
-  if (fs.existsSync(sourcePath)) {
-    const itemContent = fs.readFileSync(sourcePath, "utf8");
-    const result = getMeta(itemContent);
-    content = result.content;
-    meta = result.meta;
-    title = meta.title;
-  } else {
-    content = "";
-    meta = { title };
-  }
+  const itemContent = fs.existsSync(sourcePath)
+    ? fs.readFileSync(sourcePath, "utf8")
+    : "";
+  const result = getMeta(itemContent, { title });
+  const content = result.content;
+  const meta = result.meta;
 
   return {
     filename: item,
-    title,
+    title: meta.title,
     slug,
     sourcePath,
     targetPath: path.resolve(targetDir, slug + ".html"),

@@ -95,19 +95,6 @@ var renderItem = function (config, MD, item) { return __awaiter(void 0, void 0, 
         }
     });
 }); };
-var renderIndex = function (config, MD, item) { return __awaiter(void 0, void 0, void 0, function () {
-    var markup, result;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                markup = MD.render(item.content);
-                return [4 /*yield*/, templating_1.applyTemplateToIndex(config, markup, item)];
-            case 1:
-                result = _a.sent();
-                return [2 /*return*/, result];
-        }
-    });
-}); };
 exports.renderCollection = function (config, collection, MD) { return __awaiter(void 0, void 0, void 0, function () {
     var result;
     return __generator(this, function (_a) {
@@ -126,7 +113,7 @@ exports.renderCollection = function (config, collection, MD) { return __awaiter(
                         }
                     });
                 }); });
-                return [4 /*yield*/, renderIndex(config, MD, collection.index)];
+                return [4 /*yield*/, renderItem(config, MD, collection.index)];
             case 1:
                 result = _a.sent();
                 writeFile(collection.index, result);

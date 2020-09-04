@@ -58,51 +58,99 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.applyTemplateToIndex = exports.applyTemplate = void 0;
+exports.applyTemplate = void 0;
+var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
+var site_1 = __importDefault(require("./defaultTemplates/site"));
+var indexTemplate_1 = __importDefault(require("./defaultTemplates/indexTemplate"));
+var getTemplateFunction = function (config, meta) { return __awaiter(void 0, void 0, void 0, function () {
+    var imported;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!fs_1.default.existsSync(meta.template)) return [3 /*break*/, 3];
+                return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require(path_1.default.resolve(config.paths.cwd, meta.template))); })];
+            case 1:
+                imported = _a.sent();
+                return [4 /*yield*/, imported.default];
+            case 2: return [2 /*return*/, _a.sent()];
+            case 3: 
+            // default template loading
+            return [2 /*return*/, site_1.default];
+        }
+    });
+}); };
+var getIndexTemplate = function (config, meta) { return __awaiter(void 0, void 0, void 0, function () {
+    var imported;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!fs_1.default.existsSync(meta.indexTemplate)) return [3 /*break*/, 3];
+                return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require(path_1.default.resolve(config.paths.cwd, meta.indexTemplate))); })];
+            case 1:
+                imported = _a.sent();
+                return [4 /*yield*/, imported.default];
+            case 2: return [2 /*return*/, _a.sent()];
+            case 3: 
+            // default template loading
+            return [2 /*return*/, indexTemplate_1.default];
+        }
+    });
+}); };
 exports.applyTemplate = function (config, markup, itemToRender) { return __awaiter(void 0, void 0, void 0, function () {
-    var templatesDir, meta, siteMeta, finalMarkup, templateFunction;
+    var templatesDir, meta, siteMeta, finalMarkup, templateFunction, indexTemplate;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 templatesDir = config.paths.templates;
                 meta = itemToRender.meta;
                 siteMeta = config.siteMeta;
-                console.log(itemToRender);
                 finalMarkup = markup;
-                if (!templatesDir) return [3 /*break*/, 2];
-                return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require(path_1.default.resolve(config.paths.cwd, "templates/site.js"))); })];
+                if (!templatesDir) return [3 /*break*/, 4];
+                return [4 /*yield*/, getTemplateFunction(config, meta)];
             case 1:
-                templateFunction = (_a.sent()).default;
-                finalMarkup = templateFunction(siteMeta, meta, markup);
-                _a.label = 2;
-            case 2: return [2 /*return*/, finalMarkup];
-        }
-    });
-}); };
-exports.applyTemplateToIndex = function (config, markup, itemToRender) { return __awaiter(void 0, void 0, void 0, function () {
-    var templatesDir, meta, siteMeta, finalMarkup, templateFunction, indexGenerator;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                templatesDir = config.paths.templates;
-                meta = itemToRender.meta;
-                siteMeta = config.siteMeta;
-                console.log(itemToRender);
-                finalMarkup = markup;
-                if (!templatesDir) return [3 /*break*/, 3];
-                return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require(path_1.default.resolve(config.paths.cwd, "templates/site.js"))); })];
-            case 1:
-                templateFunction = (_a.sent()).default;
-                return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require(path_1.default.resolve(config.paths.cwd, "templates/indexPages.js"))); })];
+                templateFunction = _a.sent();
+                indexTemplate = void 0;
+                if (!(itemToRender.itemIndex.length > 0)) return [3 /*break*/, 3];
+                return [4 /*yield*/, getIndexTemplate(config, meta)];
             case 2:
-                indexGenerator = (_a.sent()).default;
-                finalMarkup = templateFunction(siteMeta, meta, indexGenerator({
-                    content: markup,
-                    itemIndex: itemToRender.itemIndex,
-                }));
+                indexTemplate = _a.sent();
                 _a.label = 3;
-            case 3: return [2 /*return*/, finalMarkup];
+            case 3:
+                finalMarkup = templateFunction(siteMeta, meta, 
+                // We need to apply the collection rendering to markup if it is a collection
+                indexTemplate
+                    ? indexTemplate({ content: markup, itemIndex: itemToRender.itemIndex })
+                    : markup);
+                _a.label = 4;
+            case 4: return [2 /*return*/, finalMarkup];
         }
     });
 }); };
+// export const applyTemplateToIndex = async (
+//   config: Config,
+//   markup: string,
+//   itemToRender: Item
+// ): Promise<string> => {
+//   const templatesDir = config.paths.templates;
+//   const { meta } = itemToRender;
+//   const { siteMeta } = config;
+//   let finalMarkup = markup;
+//   if (templatesDir) {
+//     const { default: templateFunction } = await import(
+//       path.resolve(config.paths.cwd, "templates/site.js")
+//     );
+//     const { default: indexGenerator } = await import(
+//       path.resolve(config.paths.cwd, "templates/indexPages.js")
+//     );
+//     finalMarkup = templateFunction(
+//       siteMeta,
+//       meta,
+//       indexGenerator({
+//         content: markup,
+//         itemIndex: itemToRender.itemIndex,
+//       })
+//     );
+//   }
+//   return finalMarkup;
+// };

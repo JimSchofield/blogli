@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -17,12 +28,13 @@ exports.upsertDir = function (dir) {
         fs_1.default.mkdirSync(dir, { recursive: true });
     }
 };
-/*
- * Files may begin by including some meta information about the item
- * in json.  This needs to be split from the actual markdown before
- * converting to markup.
- */
-exports.getMeta = function (rawContent) {
+var defaultMeta = {
+    title: "",
+    template: "templates/site.js",
+    indexTemplate: "templates/indexTemplate.js",
+};
+exports.getMeta = function (rawContent, defaults) {
+    if (defaults === void 0) { defaults = {}; }
     if (rawContent.trim().startsWith("{")) {
         var contentLineArray = rawContent.split("\n");
         var jsonEndIndex = contentLineArray.indexOf("}");
@@ -37,16 +49,25 @@ exports.getMeta = function (rawContent) {
         var metaObject = void 0;
         try {
             metaObject = JSON.parse(meta);
+            metaObject.template = metaObject.template
+                ? "templates/" + metaObject.template + ".js"
+                : defaultMeta.template;
+            metaObject.indexTemplate = metaObject.indexTemplate
+                ? "templates/" + metaObject.indexTemplate + ".js"
+                : defaultMeta.indexTemplate;
         }
         catch (e) {
             throw new Error("Error parsing meta data for the following meta: " + metaObject);
         }
         return {
-            meta: metaObject,
+            meta: __assign(__assign(__assign({}, defaultMeta), defaults), metaObject),
             content: content,
         };
     }
-    return { content: rawContent, meta: {} };
+    return {
+        content: rawContent,
+        meta: __assign(__assign({}, defaults), defaultMeta),
+    };
 };
 exports.splitByToken = function (source, token) {
     var tokenRegex = new RegExp("{{\\s(" + token + ")\\s}}", "g");
