@@ -4,7 +4,7 @@ import defaultSiteTemplate from "./defaultTemplates/site";
 import defaultIndexTemplate from "./defaultTemplates/indexTemplate";
 import { Config } from "./getConfig";
 import { Item, ItemIndex } from "./preprocess";
-import { Meta } from "./util";
+import { Meta } from "./meta";
 
 const getTemplateFunction = async (
   config: Config,

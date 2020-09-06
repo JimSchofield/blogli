@@ -65,15 +65,12 @@ To build and server your output folder, run `blogli-serve`
 ### TODO:
 - [ ] Pages
 - [ ] Watchman integration
-- [ ] Templates:
-    - [ ] flexible enough for collection index pages
-    - [ ] nested templates (header, footer?)
-    - [ ] Need to find common strategy to pass meta, content, siteMeta
 - [ ] Default project generator
 - [ ] Custom highlighting functions 
 - [ ] Checkbox parsing and rendering
 - [ ] Image processing (sourceset, resizing)
 - [ ] Meta/social tag generation
 - [ ] Create markdown-it configs (html, link thing, typographer thing)
+- [x] Templates:
 - [x] Index page for collections
 - [x] Asset config for public assets

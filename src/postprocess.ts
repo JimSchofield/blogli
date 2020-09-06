@@ -3,7 +3,7 @@ import path from "path";
 import sh from "shelljs";
 
 import { Config } from "./getConfig";
-import { upsertDir } from "./util";
+import { upsertDir } from "./util/upsertDir";
 
 const copyCSSAssets = async (config: Config): Promise<void> => {
   const theme = config.prismjs && config.prismjs.theme;

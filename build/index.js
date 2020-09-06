@@ -44,7 +44,7 @@ var preprocess_1 = require("./preprocess");
 var getConfig_1 = __importDefault(require("./getConfig"));
 var render_1 = require("./render");
 var postprocess_1 = require("./postprocess");
-var util_1 = require("./util");
+var summarize_1 = require("./util/summarize");
 var __CWD = process.cwd();
 var config = getConfig_1.default(__CWD);
 var collections = preprocess_1.getCollections(config);
@@ -58,7 +58,7 @@ function main() {
                     return [4 /*yield*/, postprocess_1.processAssets(config)];
                 case 2:
                     _a.sent();
-                    util_1.summarize(config, collections);
+                    summarize_1.summarize(config, collections);
                     return [2 /*return*/];
             }
         });

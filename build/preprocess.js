@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCollections = exports.createCollection = void 0;
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
-var util_1 = require("./util");
+var removeExtension_1 = require("./util/removeExtension");
+var meta_1 = require("./meta");
 var buildItems = function (sourceDir, targetDir) {
     var files = fs_1.default.readdirSync(sourceDir);
     /*
@@ -16,12 +17,12 @@ var buildItems = function (sourceDir, targetDir) {
     var items = files
         .filter(function (item) { return item.includes(".md") && item !== "index.md"; })
         .map(function (item) {
-        var slug = util_1.removeExtension(item);
+        var slug = removeExtension_1.removeExtension(item);
         var sourcePath = path_1.default.resolve(sourceDir, item);
         // There seemed to be no way around getting item meta and content up front
         // as we need to build collection index pages from the meta (titles)
         var itemContent = fs_1.default.readFileSync(sourcePath, "utf8");
-        var _a = util_1.getMeta(itemContent), content = _a.content, meta = _a.meta;
+        var _a = meta_1.getMeta(itemContent), content = _a.content, meta = _a.meta;
         return {
             filename: item,
             title: meta.title ? meta.title : slug,
@@ -50,7 +51,7 @@ var buildIndex = function (sourceDir, targetDir, name, items) {
     var itemContent = fs_1.default.existsSync(sourcePath)
         ? fs_1.default.readFileSync(sourcePath, "utf8")
         : "";
-    var result = util_1.getMeta(itemContent, { title: title });
+    var result = meta_1.getMeta(itemContent, { title: title });
     var content = result.content;
     var meta = result.meta;
     return {

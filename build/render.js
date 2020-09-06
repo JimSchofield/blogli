@@ -43,8 +43,8 @@ exports.renderCollections = exports.renderCollection = void 0;
 var fs_1 = __importDefault(require("fs"));
 var markdown_it_1 = __importDefault(require("markdown-it"));
 var initPrism_1 = __importDefault(require("./initPrism"));
-var util_1 = require("./util");
 var templating_1 = require("./templating");
+var upsertDir_1 = require("./util/upsertDir");
 var createRenderer = function (config) { return __awaiter(void 0, void 0, void 0, function () {
     function getHighlight(str, lang) {
         var wrapStr = function (s) {
@@ -79,7 +79,7 @@ var createRenderer = function (config) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 var writeFile = function (item, markup) {
-    util_1.upsertDir(item.targetDir);
+    upsertDir_1.upsertDir(item.targetDir);
     fs_1.default.writeFileSync(item.targetPath, markup, "utf8");
 };
 var renderItem = function (config, MD, item) { return __awaiter(void 0, void 0, void 0, function () {

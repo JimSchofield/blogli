@@ -1,7 +1,8 @@
 import fs from "fs";
 import path from "path";
-import { removeExtension, getMeta, Meta } from "./util";
 import { Config } from "./getConfig";
+import { removeExtension } from "./util/removeExtension";
+import { Meta, getMeta } from "./meta";
 
 export type ItemIndex = Array<{ title: string; url: string }>;
 

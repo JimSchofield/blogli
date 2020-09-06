@@ -3,8 +3,8 @@ import MarkdownIt from "markdown-it";
 import { Config } from "./getConfig";
 import initPrism from "./initPrism";
 import { Collection, Item } from "./preprocess";
-import { upsertDir } from "./util";
 import { applyTemplate } from "./templating";
+import { upsertDir } from "./util/upsertDir";
 
 const createRenderer = async (config: Config): Promise<MarkdownIt> => {
   const Prism = await initPrism(config);

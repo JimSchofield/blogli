@@ -43,7 +43,7 @@ exports.processAssets = void 0;
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 var shelljs_1 = __importDefault(require("shelljs"));
-var util_1 = require("./util");
+var upsertDir_1 = require("./util/upsertDir");
 var copyCSSAssets = function (config) { return __awaiter(void 0, void 0, void 0, function () {
     var theme, prismPath, themeCSS;
     return __generator(this, function (_a) {
@@ -53,7 +53,7 @@ var copyCSSAssets = function (config) { return __awaiter(void 0, void 0, void 0,
         }
         prismPath = path_1.default.dirname(require.resolve("prismjs"));
         themeCSS = fs_1.default.readFileSync(prismPath + "/themes/prism-" + theme + ".css", "utf8");
-        util_1.upsertDir(config.paths.targetAssetsDir);
+        upsertDir_1.upsertDir(config.paths.targetAssetsDir);
         fs_1.default.writeFileSync(path_1.default.resolve(config.paths.targetAssetsDir, "prism.css"), themeCSS);
         return [2 /*return*/];
     });
@@ -64,7 +64,7 @@ var copyStaticAssets = function (config) {
     var from = config.paths.sourceAssetsDir + glob;
     var to = config.paths.targetAssetsDir;
     console.log("Copying assets from " + from + " to " + to);
-    util_1.upsertDir(to);
+    upsertDir_1.upsertDir(to);
     // R = recursive
     // u = only copy if source is newer
     shelljs_1.default.cp("-Ru", from, to);
