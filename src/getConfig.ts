@@ -34,7 +34,9 @@ export default (__CWD: string): Config => {
         ? path.resolve(targetDir, initConfig.paths.targetAssetsDir)
         : path.resolve(targetDir, "assets"),
     },
-    collections: { ...initConfig.collections },
+    collections: {
+      include: initConfig.collections.include,
+    },
     prismjs: {
       ...initConfig.prismjs,
     },

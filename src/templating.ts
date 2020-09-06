@@ -4,7 +4,7 @@ import defaultSiteTemplate from "./defaultTemplates/site";
 import defaultIndexTemplate from "./defaultTemplates/indexTemplate";
 import { Config } from "./types/config";
 import { Meta, SiteMeta } from "./types/meta";
-import { ItemIndex, Item } from "./types/items";
+import { ItemIndex, Item, Collection } from "./types/items";
 
 const getTemplateFunction = async (
   config: Config,
@@ -41,7 +41,8 @@ const getIndexTemplate = async (
 export const applyTemplate = async (
   config: Config,
   markup: string,
-  itemToRender: Item
+  itemToRender: Item,
+  collection: Collection
 ): Promise<string> => {
   const templatesDir = config.paths.templates;
   const { meta } = itemToRender;
@@ -62,7 +63,7 @@ export const applyTemplate = async (
       siteMeta,
       meta,
       // We need to apply the collection rendering to markup if it is a collection
-      indexTemplate
+      indexTemplate && collection.name !== "pages"
         ? indexTemplate({ content: markup, itemIndex: itemToRender.itemIndex })
         : markup
     );
@@ -70,35 +71,3 @@ export const applyTemplate = async (
 
   return finalMarkup;
 };
-
-// export const applyTemplateToIndex = async (
-//   config: Config,
-//   markup: string,
-//   itemToRender: Item
-// ): Promise<string> => {
-//   const templatesDir = config.paths.templates;
-//   const { meta } = itemToRender;
-//   const { siteMeta } = config;
-
-//   let finalMarkup = markup;
-//   if (templatesDir) {
-//     const { default: templateFunction } = await import(
-//       path.resolve(config.paths.cwd, "templates/site.js")
-//     );
-
-//     const { default: indexGenerator } = await import(
-//       path.resolve(config.paths.cwd, "templates/indexPages.js")
-//     );
-
-//     finalMarkup = templateFunction(
-//       siteMeta,
-//       meta,
-//       indexGenerator({
-//         content: markup,
-//         itemIndex: itemToRender.itemIndex,
-//       })
-//     );
-//   }
-
-//   return finalMarkup;
-// };

@@ -102,6 +102,27 @@ export const createCollection = (config: Config, name: string): Collection => {
   return collection;
 };
 
+export const createPages = (config: Config): Collection => {
+  const sourceDir = path.resolve(config.paths.sourceDir);
+  const targetDir = path.resolve(config.paths.targetDir);
+
+  const items = buildItems(config, sourceDir, targetDir);
+  const index = buildIndex(config, sourceDir, targetDir, "pages", items);
+
+  const collection: Collection = {
+    name: "pages",
+    paths: {
+      sourceDir,
+      targetDir,
+      templates: config.paths.templates,
+    },
+    items,
+    index,
+  };
+
+  return collection;
+};
+
 export const getCollections = (config: Config): Collection[] => {
   const collections: Collection[] = config.collections.include.map(
     (collection) => {
@@ -109,5 +130,7 @@ export const getCollections = (config: Config): Collection[] => {
     }
   );
 
-  return collections;
+  const pages: Collection = createPages(config);
+
+  return [...collections, pages];
 };

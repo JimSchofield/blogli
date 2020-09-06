@@ -42,9 +42,14 @@ const writeFile = (item: Item, markup: string): void => {
   fs.writeFileSync(item.targetPath, markup, "utf8");
 };
 
-const renderItem = async (config: Config, MD: MarkdownIt, item: Item) => {
+const renderItem = async (
+  config: Config,
+  MD: MarkdownIt,
+  item: Item,
+  collection: Collection
+) => {
   const markup = MD.render(item.content);
-  const result = await applyTemplate(config, markup, item);
+  const result = await applyTemplate(config, markup, item, collection);
   return result;
 };
 
@@ -55,14 +60,13 @@ export const renderCollection = async (
 ): Promise<void> => {
   // Render collections
   collection.items.forEach(async (item) => {
-    const result = await renderItem(config, MD, item);
+    const result = await renderItem(config, MD, item, collection);
 
     writeFile(item, result);
   });
 
   // render index page
-  const result = await renderItem(config, MD, collection.index);
-
+  const result = await renderItem(config, MD, collection.index, collection);
   writeFile(collection.index, result);
 };
 
