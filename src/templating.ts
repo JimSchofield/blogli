@@ -49,25 +49,24 @@ export const applyTemplate = async (
   const { siteMeta } = config;
 
   // if there are no templates we simply return markup at this point
-  let finalMarkup = markup;
-  if (templatesDir) {
-    const templateFunction = await getTemplateFunction(config, meta);
-
-    // decide if index page, and get index template
-    let indexTemplate;
-    if (itemToRender.itemIndex.length > 0) {
-      indexTemplate = await getIndexTemplate(config, meta);
-    }
-
-    finalMarkup = templateFunction(
-      siteMeta,
-      meta,
-      // We need to apply the collection rendering to markup if it is a collection
-      indexTemplate && collection.name !== "pages"
-        ? indexTemplate({ content: markup, itemIndex: itemToRender.itemIndex })
-        : markup
-    );
+  if (!templatesDir) {
+    return markup;
   }
 
-  return finalMarkup;
+  const templateFunction = await getTemplateFunction(config, meta);
+
+  // decide if index page, and get index template
+  let indexTemplate;
+  if (itemToRender.itemIndex.length > 0) {
+    indexTemplate = await getIndexTemplate(config, meta);
+  }
+
+  return templateFunction(
+    siteMeta,
+    meta,
+    // We need to apply the collection rendering to markup if it is a collection
+    indexTemplate && collection.name !== "pages"
+      ? indexTemplate({ content: markup, itemIndex: itemToRender.itemIndex })
+      : markup
+  );
 };
