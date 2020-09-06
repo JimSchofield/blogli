@@ -1,5 +1,5 @@
 import Prism from "prismjs";
-import { Config } from "./getConfig";
+import { Config } from "./types/config";
 
 export default async (config: Config): Promise<typeof Prism> => {
   if (config.prismjs) {

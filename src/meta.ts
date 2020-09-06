@@ -1,19 +1,13 @@
+import { Meta, defaultMeta } from "./types/meta";
+import { Config } from "./types/config";
+
 /*
  * Files may begin by including some meta information about the item
  * in json.  This needs to be split from the actual markdown before
  * converting to markup.
  */
-export interface Meta {
-  title: string;
-  template: string;
-  indexTemplate: string;
-}
-const defaultMeta: Meta = {
-  title: "",
-  template: "templates/site.js",
-  indexTemplate: "templates/indexTemplate.js",
-};
 export const getMeta = (
+  config: Config,
   rawContent: string,
   defaults: Partial<Meta> = {}
 ): { content: string; meta: Meta } => {
@@ -34,11 +28,11 @@ export const getMeta = (
       metaObject = JSON.parse(meta);
 
       metaObject.template = metaObject.template
-        ? `templates/${metaObject.template}.js`
+        ? `${config.paths.templates}/${metaObject.template}.js`
         : defaultMeta.template;
 
       metaObject.indexTemplate = metaObject.indexTemplate
-        ? `templates/${metaObject.indexTemplate}.js`
+        ? `${config.paths.templates}/${metaObject.indexTemplate}.js`
         : defaultMeta.indexTemplate;
     } catch (e) {
       throw new Error(

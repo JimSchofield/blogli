@@ -25,15 +25,23 @@ exports.default = (function (__CWD) {
             assetsDir: initConfig.paths.targetAssetsDir
                 ? initConfig.paths.targetAssetsDir
                 : "assets",
-            siteTitle: initConfig.title ? initConfig.title : "My Blogli Site!",
+            siteTitle: initConfig.title ? initConfig.title : "My Blogli Site",
         },
-        paths: __assign(__assign({ cwd: __CWD, targetDir: targetDir, sourceDir: path_1.default.resolve(__CWD, initConfig.paths.sourceDir) }, (initConfig.paths.templates
-            ? { templates: path_1.default.resolve(__CWD, initConfig.paths.templates) }
-            : {})), { sourceAssetsDir: initConfig.paths.sourceAssetsDir
+        paths: {
+            cwd: __CWD,
+            targetDir: targetDir,
+            sourceDir: path_1.default.resolve(__CWD, initConfig.paths.sourceDir),
+            // templates are optional
+            templates: initConfig.paths.templates
+                ? path_1.default.resolve(__CWD, initConfig.paths.templates)
+                : path_1.default.resolve(__CWD, "templates"),
+            sourceAssetsDir: initConfig.paths.sourceAssetsDir
                 ? path_1.default.resolve(__CWD, initConfig.paths.sourceAssetsDir)
-                : path_1.default.resolve("assets"), targetAssetsDir: initConfig.paths.targetAssetsDir
+                : path_1.default.resolve("assets"),
+            targetAssetsDir: initConfig.paths.targetAssetsDir
                 ? path_1.default.resolve(targetDir, initConfig.paths.targetAssetsDir)
-                : path_1.default.resolve(targetDir, "assets") }),
+                : path_1.default.resolve(targetDir, "assets"),
+        },
         collections: __assign({}, initConfig.collections),
         prismjs: __assign({}, initConfig.prismjs),
     };

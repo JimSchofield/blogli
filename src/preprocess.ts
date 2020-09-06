@@ -1,35 +1,15 @@
 import fs from "fs";
 import path from "path";
-import { Config } from "./getConfig";
 import { removeExtension } from "./util/removeExtension";
-import { Meta, getMeta } from "./meta";
+import { getMeta } from "./meta";
+import { Item, ItemIndex, Collection } from "./types/items";
+import { Config } from "./types/config";
 
-export type ItemIndex = Array<{ title: string; url: string }>;
-
-export interface Item {
-  filename: string;
-  title: string;
-  slug: string;
-  sourcePath: string;
-  targetPath: string;
-  targetDir: string;
-  meta: Meta;
-  content: string;
-  itemIndex: ItemIndex;
-}
-
-export interface Collection {
-  name: string;
-  paths: {
-    targetDir: string;
-    sourceDir: string;
-    templates?: string;
-  };
-  items: Item[];
-  index: Item;
-}
-
-const buildItems = (sourceDir: string, targetDir: string): Item[] => {
+const buildItems = (
+  config: Config,
+  sourceDir: string,
+  targetDir: string
+): Item[] => {
   const files = fs.readdirSync(sourceDir);
 
   /*
@@ -45,7 +25,7 @@ const buildItems = (sourceDir: string, targetDir: string): Item[] => {
       // There seemed to be no way around getting item meta and content up front
       // as we need to build collection index pages from the meta (titles)
       const itemContent = fs.readFileSync(sourcePath, "utf8");
-      const { content, meta } = getMeta(itemContent);
+      const { content, meta } = getMeta(config, itemContent);
 
       return {
         filename: item,
@@ -70,6 +50,7 @@ const createIndex = (items: Item[]): ItemIndex => {
 };
 
 const buildIndex = (
+  config: Config,
   sourceDir: string,
   targetDir: string,
   name: string,
@@ -83,7 +64,7 @@ const buildIndex = (
   const itemContent = fs.existsSync(sourcePath)
     ? fs.readFileSync(sourcePath, "utf8")
     : "";
-  const result = getMeta(itemContent, { title });
+  const result = getMeta(config, itemContent, { title });
   const content = result.content;
   const meta = result.meta;
 
@@ -104,8 +85,8 @@ export const createCollection = (config: Config, name: string): Collection => {
   const sourceDir = path.resolve(config.paths.sourceDir, name);
   const targetDir = path.resolve(config.paths.targetDir, name);
 
-  const items = buildItems(sourceDir, targetDir);
-  const index = buildIndex(sourceDir, targetDir, name, items);
+  const items = buildItems(config, sourceDir, targetDir);
+  const index = buildIndex(config, sourceDir, targetDir, name, items);
 
   const collection: Collection = {
     name,

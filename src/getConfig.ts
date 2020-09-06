@@ -1,27 +1,6 @@
 import fs from "fs";
 import path from "path";
-
-export interface Config {
-  siteMeta: {
-    assetsDir: string;
-    siteTitle: string;
-  };
-  paths: {
-    cwd: string;
-    targetDir: string;
-    sourceDir: string;
-    sourceAssetsDir: string;
-    targetAssetsDir: string;
-    templates?: string;
-  };
-  collections: {
-    include: string[];
-  };
-  prismjs?: {
-    languages: string[];
-    theme?: string;
-  };
-}
+import { Config } from "./types/config";
 
 export default (__CWD: string): Config => {
   const configFile = fs.readFileSync(
@@ -38,16 +17,16 @@ export default (__CWD: string): Config => {
       assetsDir: initConfig.paths.targetAssetsDir
         ? initConfig.paths.targetAssetsDir
         : "assets",
-      siteTitle: initConfig.title ? initConfig.title : "My Blogli Site!",
+      siteTitle: initConfig.title ? initConfig.title : "My Blogli Site",
     },
     paths: {
       cwd: __CWD,
       targetDir,
       sourceDir: path.resolve(__CWD, initConfig.paths.sourceDir),
       // templates are optional
-      ...(initConfig.paths.templates
-        ? { templates: path.resolve(__CWD, initConfig.paths.templates) }
-        : {}),
+      templates: initConfig.paths.templates
+        ? path.resolve(__CWD, initConfig.paths.templates)
+        : path.resolve(__CWD, "templates"),
       sourceAssetsDir: initConfig.paths.sourceAssetsDir
         ? path.resolve(__CWD, initConfig.paths.sourceAssetsDir)
         : path.resolve("assets"),

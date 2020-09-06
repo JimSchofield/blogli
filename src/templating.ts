@@ -2,14 +2,14 @@ import fs from "fs";
 import path from "path";
 import defaultSiteTemplate from "./defaultTemplates/site";
 import defaultIndexTemplate from "./defaultTemplates/indexTemplate";
-import { Config } from "./getConfig";
-import { Item, ItemIndex } from "./preprocess";
-import { Meta } from "./meta";
+import { Config } from "./types/config";
+import { Meta, SiteMeta } from "./types/meta";
+import { ItemIndex, Item } from "./types/items";
 
 const getTemplateFunction = async (
   config: Config,
   meta: Meta
-): Promise<(siteMeta: any, meta: Meta, content: string) => string> => {
+): Promise<(siteMeta: SiteMeta, meta: Meta, content: string) => string> => {
   if (fs.existsSync(meta.template)) {
     // if a user default site template is defined in the project
     const imported = await import(

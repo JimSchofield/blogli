@@ -8,7 +8,7 @@ var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 var removeExtension_1 = require("./util/removeExtension");
 var meta_1 = require("./meta");
-var buildItems = function (sourceDir, targetDir) {
+var buildItems = function (config, sourceDir, targetDir) {
     var files = fs_1.default.readdirSync(sourceDir);
     /*
      * In the future I might want to configure where files are retrieved
@@ -22,7 +22,7 @@ var buildItems = function (sourceDir, targetDir) {
         // There seemed to be no way around getting item meta and content up front
         // as we need to build collection index pages from the meta (titles)
         var itemContent = fs_1.default.readFileSync(sourcePath, "utf8");
-        var _a = meta_1.getMeta(itemContent), content = _a.content, meta = _a.meta;
+        var _a = meta_1.getMeta(config, itemContent), content = _a.content, meta = _a.meta;
         return {
             filename: item,
             title: meta.title ? meta.title : slug,
@@ -43,7 +43,7 @@ var createIndex = function (items) {
         url: item.slug + ".html",
     }); });
 };
-var buildIndex = function (sourceDir, targetDir, name, items) {
+var buildIndex = function (config, sourceDir, targetDir, name, items) {
     var item = "index.md";
     var slug = "index";
     var sourcePath = path_1.default.resolve(sourceDir, item);
@@ -51,7 +51,7 @@ var buildIndex = function (sourceDir, targetDir, name, items) {
     var itemContent = fs_1.default.existsSync(sourcePath)
         ? fs_1.default.readFileSync(sourcePath, "utf8")
         : "";
-    var result = meta_1.getMeta(itemContent, { title: title });
+    var result = meta_1.getMeta(config, itemContent, { title: title });
     var content = result.content;
     var meta = result.meta;
     return {
@@ -69,8 +69,8 @@ var buildIndex = function (sourceDir, targetDir, name, items) {
 exports.createCollection = function (config, name) {
     var sourceDir = path_1.default.resolve(config.paths.sourceDir, name);
     var targetDir = path_1.default.resolve(config.paths.targetDir, name);
-    var items = buildItems(sourceDir, targetDir);
-    var index = buildIndex(sourceDir, targetDir, name, items);
+    var items = buildItems(config, sourceDir, targetDir);
+    var index = buildIndex(config, sourceDir, targetDir, name, items);
     var collection = {
         name: name,
         paths: {

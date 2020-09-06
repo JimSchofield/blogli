@@ -1,5 +1,5 @@
-import { Config } from "../getConfig";
-import { Collection } from "../preprocess";
+import { Config } from "../types/config";
+import { Collection } from "../types/items";
 
 export const summarize = (_config: Config, collections: Collection[]): void => {
   const filesByCollection = collections.map((collection) => {

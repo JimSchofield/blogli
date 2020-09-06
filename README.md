@@ -71,6 +71,7 @@ To build and server your output folder, run `blogli-serve`
 - [ ] Image processing (sourceset, resizing)
 - [ ] Meta/social tag generation
 - [ ] Create markdown-it configs (html, link thing, typographer thing)
+- [x] Separate types into their own folder
 - [x] Templates:
 - [x] Index page for collections
 - [x] Asset config for public assets

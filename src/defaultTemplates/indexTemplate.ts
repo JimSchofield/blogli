@@ -1,4 +1,4 @@
-import { ItemIndex } from "../preprocess";
+import { ItemIndex } from "../types/items";
 
 export default function (data: {
   content: string;

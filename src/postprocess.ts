@@ -2,8 +2,8 @@ import fs from "fs";
 import path from "path";
 import sh from "shelljs";
 
-import { Config } from "./getConfig";
 import { upsertDir } from "./util/upsertDir";
+import { Config } from "./types/config";
 
 const copyCSSAssets = async (config: Config): Promise<void> => {
   const theme = config.prismjs && config.prismjs.theme;
