@@ -16,19 +16,24 @@ See https://github.com/JimSchofield/blogli-test-setup for an example project con
 .
 ├── blogli.json
 ├── content
+│  ├── index.md
+│  ├── about.md
 │  ├── assets
 │  │  └── test.css
 │  ├── blog
+│  │  └── index.md
 │  │  ├── 2020-08-15.md
 │  │  ├── 2020-08-16.md
-│  │  └── index.md
+│  │  ├── 2020-09-04.md
 │  └── posts
+│     └── index.md
 │     ├── 2020-08-15.md
-│     └── 2020-08-17.md
+│     ├── 2020-08-17.md
 └── templates
    ├── footer.js
    ├── header.js
    ├── indexPages.js
+   ├── newLayout.js
    └── site.js
 ```
 
@@ -63,14 +68,14 @@ To build your blogli site, use `blogli` in the root of your site directory (wher
 To build and server your output folder, run `blogli-serve`
 
 ### TODO:
-- [ ] Pages
+- [ ] Meta/social tag generation
+- [ ] Checkbox parsing and rendering
 - [ ] Watchman integration
 - [ ] Default project generator
 - [ ] Custom highlighting functions 
-- [ ] Checkbox parsing and rendering
 - [ ] Image processing (sourceset, resizing)
-- [ ] Meta/social tag generation
 - [ ] Create markdown-it configs (html, link thing, typographer thing)
+- [x] Pages
 - [x] Separate types into their own folder
 - [x] Templates:
 - [x] Index page for collections
