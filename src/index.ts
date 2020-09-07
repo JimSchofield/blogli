@@ -8,8 +8,8 @@ import { summarize } from "./util/summarize";
 
 const __CWD = process.cwd();
 
-const config = getConfig(__CWD);
-const collections = getCollections(config);
+const initialConfig = getConfig(__CWD);
+const { collections, config } = getCollections(initialConfig);
 
 async function main() {
   await renderCollections(config, collections);

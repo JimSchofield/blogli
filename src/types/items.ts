@@ -1,6 +1,10 @@
 import { Meta } from "./meta";
 
-export type ItemIndex = Array<{ title: string; url: string }>;
+export type ItemIndex = Array<{
+  title: string;
+  url: string;
+  order: number;
+}>;
 
 export interface Item {
   filename: string;

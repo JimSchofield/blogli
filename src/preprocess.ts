@@ -46,6 +46,7 @@ const createIndex = (items: Item[]): ItemIndex => {
   return items.map((item) => ({
     title: item.title,
     url: item.slug + ".html",
+    order: item.meta.order !== Infinity ? item.meta.order : Infinity,
   }));
 };
 
@@ -123,14 +124,49 @@ export const createPages = (config: Config): Collection => {
   return collection;
 };
 
-export const getCollections = (config: Config): Collection[] => {
+export const getCollections = (
+  config: Config
+): { collections: Collection[]; config: Config } => {
   const collections: Collection[] = config.collections.include.map(
     (collection) => {
       return createCollection(config, collection);
     }
   );
 
+  /*
+   * This is a bit awkward, but the index page should probably be
+   * part of the page index
+   */
   const pages: Collection = createPages(config);
+  const pagesIndex: ItemIndex = createIndex(pages.items);
+  pagesIndex.push({
+    title: pages.index.title,
+    url: pages.index.slug + ".html",
+    order: pages.index.meta.order !== Infinity ? pages.index.meta.order : 0,
+  });
+  const newSiteMeta = {
+    pagesIndex: pagesIndex.sort((a, b) => a.order - b.order),
+  };
+  console.log(newSiteMeta);
 
-  return [...collections, pages];
+  const thing = {
+    ...config,
+    siteMeta: {
+      ...config.siteMeta,
+      ...newSiteMeta,
+    },
+  };
+
+  console.log(thing.siteMeta.pagesIndex);
+
+  return {
+    collections: [...collections, pages],
+    config: {
+      ...config,
+      siteMeta: {
+        ...config.siteMeta,
+        ...newSiteMeta,
+      },
+    },
+  };
 };
