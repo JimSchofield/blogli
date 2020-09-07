@@ -18,6 +18,7 @@ export default (__CWD: string): Config => {
         ? initConfig.paths.targetAssetsDir
         : "assets",
       siteTitle: initConfig.title ? initConfig.title : "My Blogli Site",
+      ...{ seo: initConfig.seo },
     },
     paths: {
       cwd: __CWD,
