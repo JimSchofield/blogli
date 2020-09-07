@@ -21,14 +21,14 @@ See https://github.com/JimSchofield/blogli-test-setup for an example project con
 │  ├── assets
 │  │  └── test.css
 │  ├── blog
-│  │  └── index.md
+│  │  ├── index.md
 │  │  ├── 2020-08-15.md
 │  │  ├── 2020-08-16.md
-│  │  ├── 2020-09-04.md
+│  │  └── 2020-09-04.md
 │  └── posts
-│     └── index.md
+│     ├── index.md
 │     ├── 2020-08-15.md
-│     ├── 2020-08-17.md
+│     └── 2020-08-17.md
 └── templates
    ├── footer.js
    ├── header.js
