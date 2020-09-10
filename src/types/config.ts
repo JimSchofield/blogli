@@ -1,6 +1,7 @@
 import { SiteMeta } from "./meta";
 
 export interface Config {
+  address: string;
   siteMeta: SiteMeta;
   paths: {
     cwd: string;

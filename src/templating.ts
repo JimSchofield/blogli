@@ -5,6 +5,7 @@ import defaultIndexTemplate from "./defaultTemplates/indexTemplate";
 import { Config } from "./types/config";
 import { Meta, SiteMeta } from "./types/meta";
 import { ItemIndex, Item, Collection } from "./types/items";
+import { getMetaMarkup } from "./defaultTemplates/metaMarkup";
 
 const getTemplateFunction = async (
   config: Config,
@@ -60,6 +61,8 @@ export const applyTemplate = async (
   if (itemToRender.itemIndex.length > 0) {
     indexTemplate = await getIndexTemplate(config, meta);
   }
+
+  siteMeta.metaMarkup = getMetaMarkup(siteMeta, meta);
 
   return templateFunction(
     siteMeta,

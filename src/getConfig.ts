@@ -13,6 +13,7 @@ export default (__CWD: string): Config => {
   const targetDir = path.resolve(__CWD, initConfig.paths.targetDir);
 
   const config: Config = {
+    address: initConfig.address ? initConfig.address : "/",
     siteMeta: {
       assetsDir: initConfig.paths.targetAssetsDir
         ? initConfig.paths.targetAssetsDir
