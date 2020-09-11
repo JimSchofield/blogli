@@ -16,6 +16,7 @@ export interface Item {
   meta: Meta;
   content: string;
   itemIndex: ItemIndex;
+  metaMarkup?: string;
 }
 
 export interface Collection {

@@ -1,13 +1,17 @@
-import { SiteMeta, Meta } from "../types/meta";
+import { SiteMeta } from "../types/meta";
+import { Item } from "../types/items";
+import { Config } from "../types/config";
 
 export default function (
-  siteMeta: SiteMeta,
-  meta: Meta,
+  config: Config,
+  itemToRender: Item,
   content: string
 ): string {
   const title =
-    siteMeta.siteTitle +
-    (meta.title && meta.title.length > 0 ? " - " + meta.title : "");
+    config.siteMeta.siteTitle +
+    (itemToRender.meta.title && itemToRender.meta.title.length > 0
+      ? " - " + itemToRender.meta.title
+      : "");
 
   return `
 <!DOCTYPE html>
@@ -16,9 +20,9 @@ export default function (
     <meta charset="UTF-8">
     <!-- Primary Meta Tags -->
     <title>${title}</title>
-    ${siteMeta.metaMarkup ? siteMeta.metaMarkup : ""}
+    ${config.siteMeta.metaMarkup ? config.siteMeta.metaMarkup : ""}
     <link href="/${
-      siteMeta.assetsDir
+      config.siteMeta.assetsDir
     }/prism.css" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet"> 
 </head>

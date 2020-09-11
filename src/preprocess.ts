@@ -159,20 +159,20 @@ export const getCollections = (
     url: pages.index.slug + ".html",
     order: pages.index.meta.order !== Infinity ? pages.index.meta.order : 0,
   });
+  // Include collection index pages to site pagesIndex
+  collections.forEach((collection) => {
+    pagesIndex.push({
+      title: collection.index.title,
+      url: `${collection.name}/${collection.index.slug}.html`,
+      order:
+        collection.index.meta.order !== Infinity
+          ? collection.index.meta.order
+          : 0,
+    });
+  });
   const newSiteMeta = {
     pagesIndex: pagesIndex.sort((a, b) => a.order - b.order),
   };
-  console.log(newSiteMeta);
-
-  const thing = {
-    ...config,
-    siteMeta: {
-      ...config.siteMeta,
-      ...newSiteMeta,
-    },
-  };
-
-  console.log(thing.siteMeta.pagesIndex);
 
   return {
     collections: [...collections, pages],

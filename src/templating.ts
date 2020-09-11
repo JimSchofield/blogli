@@ -3,14 +3,14 @@ import path from "path";
 import defaultSiteTemplate from "./defaultTemplates/site";
 import defaultIndexTemplate from "./defaultTemplates/indexTemplate";
 import { Config } from "./types/config";
-import { Meta, SiteMeta } from "./types/meta";
+import { Meta } from "./types/meta";
 import { ItemIndex, Item, Collection } from "./types/items";
 import { getMetaMarkup } from "./defaultTemplates/metaMarkup";
 
 const getTemplateFunction = async (
   config: Config,
   meta: Meta
-): Promise<(siteMeta: SiteMeta, meta: Meta, content: string) => string> => {
+): Promise<(config: Config, itemToRender: Item, content: string) => string> => {
   if (fs.existsSync(meta.template)) {
     // if a user default site template is defined in the project
     const imported = await import(
@@ -47,7 +47,6 @@ export const applyTemplate = async (
 ): Promise<string> => {
   const templatesDir = config.paths.templates;
   const { meta } = itemToRender;
-  const { siteMeta } = config;
 
   // if there are no templates we simply return markup at this point
   if (!templatesDir) {
@@ -62,11 +61,11 @@ export const applyTemplate = async (
     indexTemplate = await getIndexTemplate(config, meta);
   }
 
-  siteMeta.metaMarkup = getMetaMarkup(siteMeta, meta);
+  const metaMarkup = getMetaMarkup(config.siteMeta, meta);
 
   return templateFunction(
-    siteMeta,
-    meta,
+    config,
+    { ...itemToRender, metaMarkup },
     // We need to apply the collection rendering to markup if it is a collection
     indexTemplate && collection.name !== "pages"
       ? indexTemplate({ content: markup, itemIndex: itemToRender.itemIndex })
