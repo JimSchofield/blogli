@@ -65,7 +65,7 @@ Until this project is put on npm, clone to your computer and install/link by run
 
 To build your blogli site, use `blogli` in the root of your site directory (where `blogli.json` is).
 
-To build and server your output folder, run `blogli-serve`
+To build and serve your output folder locally, run `blogli-serve`
 
 ### TODO:
 - [ ] Meta/social tag generation
