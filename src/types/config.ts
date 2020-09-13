@@ -1,4 +1,5 @@
 import { SiteMeta } from "./meta";
+import { ShortCode } from "./shortcode";
 
 export interface Config {
   address: string;
@@ -18,4 +19,5 @@ export interface Config {
     languages: string[];
     theme?: string;
   };
+  shortCodes: ShortCode[];
 }

@@ -8,10 +8,10 @@ import { summarize } from "./util/summarize";
 
 const __CWD = process.cwd();
 
-const initialConfig = getConfig(__CWD);
-const { collections, config } = getCollections(initialConfig);
-
 async function main() {
+  const initialConfig = await getConfig(__CWD);
+  console.log(initialConfig);
+  const { collections, config } = getCollections(initialConfig);
   await renderCollections(config, collections);
   await processAssets(config);
   summarize(config, collections);

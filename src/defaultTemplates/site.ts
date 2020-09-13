@@ -1,4 +1,3 @@
-import { SiteMeta } from "../types/meta";
 import { Item } from "../types/items";
 import { Config } from "../types/config";
 

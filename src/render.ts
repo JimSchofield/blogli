@@ -5,6 +5,7 @@ import initPrism from "./initPrism";
 import { applyTemplate } from "./templating";
 import { upsertDir } from "./util/upsertDir";
 import { Item, Collection } from "./types/items";
+import { applyShortcodes } from "./shortcodes";
 
 const createRenderer = async (config: Config): Promise<MarkdownIt> => {
   const Prism = await initPrism(config);
@@ -49,7 +50,13 @@ const renderItem = async (
   collection: Collection
 ) => {
   const markup = MD.render(item.content);
-  const result = await applyTemplate(config, markup, item, collection);
+  const intermediateMarkup = applyShortcodes(config, markup);
+  const result = await applyTemplate(
+    config,
+    intermediateMarkup,
+    item,
+    collection
+  );
   return result;
 };
 

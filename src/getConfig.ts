@@ -1,8 +1,26 @@
 import fs from "fs";
 import path from "path";
 import { Config } from "./types/config";
+import { ShortCode } from "./types/shortcode";
 
-export default (__CWD: string): Config => {
+const importShortCodes = async (
+  __CWD: string,
+  names: string[]
+): Promise<ShortCode[]> => {
+  const shortCodesArray = await Promise.all(
+    names.map(
+      async (name): Promise<ShortCode> => {
+        const res = await import(path.resolve(__CWD, `shortcodes/${name}.js`));
+        return await res.default;
+      }
+    )
+  );
+
+  // @ts-ignore
+  return await shortCodesArray.flat();
+};
+
+export default async (__CWD: string): Promise<Config> => {
   const configFile = fs.readFileSync(
     path.resolve(__CWD, "blogli.json"),
     "utf8"
@@ -42,7 +60,11 @@ export default (__CWD: string): Config => {
     prismjs: {
       ...initConfig.prismjs,
     },
+    shortCodes: Array.isArray(initConfig.shortcodes)
+      ? await importShortCodes(__CWD, initConfig.shortcodes)
+      : [],
   };
 
+  console.log(config.shortCodes);
   return config;
 };
