@@ -68,12 +68,15 @@ To build your blogli site, use `blogli` in the root of your site directory (wher
 To build and serve your output folder locally, run `blogli-serve`
 
 ### TODO:
-- [ ] Simple checkbox replace (shortcodes?)
 - [ ] Watchman integration
-- [ ] Default project generator
-- [ ] Custom highlighting functions 
+- [ ] Default project template
 - [ ] Image processing (sourceset, resizing)
+- [ ] Comprehensive docs
+### Someday:
+- [ ] Custom highlighting functions 
 - [ ] Create markdown-it configs (html, link thing, typographer thing)
+### Done:
+- [x] Simple checkbox replace (shortcodes?)
 - [x] Meta/social tag generation
 - [x] Pages
 - [x] Separate types into their own folder
