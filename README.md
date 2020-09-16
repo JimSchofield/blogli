@@ -16,35 +16,35 @@ See https://github.com/JimSchofield/blogli-test-setup for an example project con
 .
 ├── blogli.json
 ├── content
-│  ├── index.md
 │  ├── about.md
 │  ├── assets
 │  │  └── test.css
 │  ├── blog
-│  │  ├── index.md
 │  │  ├── 2020-08-15.md
 │  │  ├── 2020-08-16.md
 │  │  └── 2020-09-04.md
+│  ├── index.md
 │  └── posts
-│     ├── index.md
-│     ├── 2020-08-15.md
-│     └── 2020-08-17.md
+│     ├── cow.md
+│     ├── dog.md
+│     └── index.md
+├── shortcodes
+│  ├── checkbox.js
+│  └── test.js
 └── templates
    ├── footer.js
    ├── header.js
    ├── indexPages.js
-   ├── newLayout.js
    └── site.js
 ```
 
 ### Blogli Config (`blogli.json`)
 ```json
 {
-  "title": "Blogli site!",
+  "title": "Blogli Site Title",
   "paths": {
     "targetDir": "output",
     "sourceDir": "content",
-    "templates": "templates",
     "sourceAssetsDir": "content/assets",
     "targetAssetsDir": "assets"
   },
@@ -54,28 +54,38 @@ See https://github.com/JimSchofield/blogli-test-setup for an example project con
   "prismjs": {
     "languages": ["javascript", "python", "rust"],
     "theme": "twilight"
-  }
+  },
+  "address": "http://www.mysite.com/",
+  "seo": {
+    "defaultDescription": "Here is the default site description",
+    "defaultImage": "http://placehold.it/300"
+  },
+  "shortcodes": ["checkbox", "test"]
 }
 ```
 
 All paths are relative to where you run blogli with the exception of `targetAssetsDir`.  `targetAssetsDir` is relative to `targetDir`, so that the assets path can be used directly in linking css, js, or other assets in the rendered html.
 
-### Commands
+## Commands
 Until this project is put on npm, clone to your computer and install/link by running `npm install` and `npm link`
 
 To build your blogli site, use `blogli` in the root of your site directory (where `blogli.json` is).
 
-To build and serve your output folder locally, run `blogli-serve`
+- `blogli` - build site
+- `bligli-serve` - Build site and start `http-server`
+- `blogli-watch` - Build site, start a server, and watch files for changes
 
 ### TODO:
-- [ ] Watchman integration
 - [ ] Default project template
-- [ ] Image processing (sourceset, resizing)
 - [ ] Comprehensive docs
 ### Someday:
+- [ ] Web sockets browser reload on rebuild
+- [ ] Available shortcodes (checkbox, twitter names)
+- [ ] Image processing (sourceset, resizing)
 - [ ] Custom highlighting functions 
 - [ ] Create markdown-it configs (html, link thing, typographer thing)
 ### Done:
+- [x] File watch integration
 - [x] Simple checkbox replace (shortcodes?)
 - [x] Meta/social tag generation
 - [x] Pages
