@@ -65,6 +65,5 @@ export default async (__CWD: string): Promise<Config> => {
       : [],
   };
 
-  console.log(config.shortCodes);
   return config;
 };

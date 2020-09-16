@@ -12,7 +12,8 @@
   },
   "bin": {
     "blogli": "build/index.js",
-    "blogli-serve": "scripts/serve.js"
+    "blogli-serve": "scripts/serve.js",
+    "blogli-watch": "scripts/watch.js"
   },
   "author": "Jim Schofield",
   "license": "MIT",
@@ -32,6 +33,7 @@
   "dependencies": {
     "@types/markdown-it": "^10.0.2",
     "@types/shelljs": "^0.8.8",
+    "chokidar": "^3.4.2",
     "http-server": "^0.12.3",
     "markdown-it": "^11.0.0",
     "prismjs": "^1.21.0",

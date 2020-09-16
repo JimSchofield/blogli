@@ -11,9 +11,7 @@ const applyShortCode = (shortCode: ShortCode, markup: string): string => {
   const splitMarkup = markup.split(matchRegEx);
 
   const resultArray = splitMarkup.map((el) => {
-    console.log(matchRegEx);
     if (matchRegEx.test(el)) {
-      console.log(`Replacing ${el} with ${shortCode.resolve(el)}`);
       return shortCode.resolve(el);
     }
     return el;

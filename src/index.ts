@@ -10,7 +10,7 @@ const __CWD = process.cwd();
 
 async function main() {
   const initialConfig = await getConfig(__CWD);
-  console.log(initialConfig);
+  // console.log(initialConfig);
   const { collections, config } = getCollections(initialConfig);
   await renderCollections(config, collections);
   await processAssets(config);
