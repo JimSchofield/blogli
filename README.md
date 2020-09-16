@@ -77,10 +77,10 @@ To build your blogli site, use `blogli` in the root of your site directory (wher
 
 ### TODO:
 - [ ] Default project template
+- [ ] Default available shortcodes (checkbox, twitter names)
 - [ ] Comprehensive docs
 ### Someday:
 - [ ] Web sockets browser reload on rebuild
-- [ ] Available shortcodes (checkbox, twitter names)
 - [ ] Image processing (sourceset, resizing)
 - [ ] Custom highlighting functions 
 - [ ] Create markdown-it configs (html, link thing, typographer thing)
