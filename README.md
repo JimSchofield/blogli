@@ -75,21 +75,5 @@ To build your blogli site, use `blogli` in the root of your site directory (wher
 - `bligli-serve` - Build site and start `http-server`
 - `blogli-watch` - Build site, start a server, and watch files for changes
 
-### TODO:
-- [ ] Default project template
-- [ ] Default available shortcodes (checkbox, twitter names)
-- [ ] Comprehensive docs
-### Someday:
-- [ ] Web sockets browser reload on rebuild
-- [ ] Image processing (sourceset, resizing)
-- [ ] Custom highlighting functions 
-- [ ] Create markdown-it configs (html, link thing, typographer thing)
-### Done:
-- [x] File watch integration
-- [x] Simple checkbox replace (shortcodes?)
-- [x] Meta/social tag generation
-- [x] Pages
-- [x] Separate types into their own folder
-- [x] Templates:
-- [x] Index page for collections
-- [x] Asset config for public assets
+## Todo
+Tasks and todos moved to github projects
