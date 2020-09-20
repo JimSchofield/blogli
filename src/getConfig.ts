@@ -55,11 +55,12 @@ export default async (__CWD: string): Promise<Config> => {
         : path.resolve(targetDir, "assets"),
     },
     collections: {
-      include: initConfig.collections.include,
+      include:
+        initConfig.collections && initConfig.collections.include
+          ? initConfig.collections.include
+          : [],
     },
-    prismjs: {
-      ...initConfig.prismjs,
-    },
+    prismjs: initConfig.prismjs ? initConfig.prismjs : undefined,
     shortCodes: Array.isArray(initConfig.shortcodes)
       ? await importShortCodes(__CWD, initConfig.shortcodes)
       : [],
