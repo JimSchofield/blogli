@@ -8,7 +8,7 @@ import { Item, Collection } from "./types/items";
 import { applyShortcodes } from "./shortcodes";
 
 const createRenderer = async (config: Config): Promise<MarkdownIt> => {
-  const Prism = await initPrism(config);
+  const Prism = config.prismjs ? await initPrism(config) : undefined;
 
   function getHighlight(str: string, lang: string): string {
     const wrapStr = (s: string) => {
@@ -16,7 +16,7 @@ const createRenderer = async (config: Config): Promise<MarkdownIt> => {
       return `<pre class="language-${langStr}"><code class="language-${langStr}">${s}</code></pre>`;
     };
 
-    if (Boolean(config.prismjs) && lang !== "") {
+    if (Prism && lang !== "") {
       let formatted = "";
       try {
         formatted = Prism.highlight(str, Prism.languages[lang], lang);

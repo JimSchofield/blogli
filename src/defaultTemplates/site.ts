@@ -17,13 +17,13 @@ export default function (
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Primary Meta Tags -->
     <title>${title}</title>
     ${config.siteMeta.metaMarkup ? config.siteMeta.metaMarkup : ""}
-    <link href="/${
-      config.siteMeta.assetsDir
-    }/prism.css" rel="stylesheet" type="text/css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet"> 
+    ${
+      config.prismjs
+        ? `<link href="/${config.siteMeta.assetsDir}/prism.css" rel="stylesheet" type="text/css"/>`
+        : ""
+    }
 </head>
 <body>
     ${content}
