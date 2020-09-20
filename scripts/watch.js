@@ -23,8 +23,15 @@ console.log("+-----------------------+");
 console.log("| Watching files        |");
 console.log("+-----------------------+");
 console.log("");
+
+const templatesPath = path.resolve(process.cwd(), config.paths.templates ? config.paths.templates : 'templates');
+console.log(templatesPath);
+console.log(fs.existsSync(templatesPath) ? "Does exist" : "doesn't exist");
 const watcher = chokidar
-  .watch(path.resolve(process.cwd(), config.paths.sourceDir))
+  .watch([
+    path.resolve(process.cwd(), config.paths.sourceDir),
+    ...(fs.existsSync(templatesPath) ? [templatesPath] : [])
+  ])
   .on('change', (event, path) => {
     console.log("Change detected... re-building");
     shell.exec("blogli");
