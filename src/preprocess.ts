@@ -51,10 +51,18 @@ const buildItems = (
   return items;
 };
 
-const createIndex = (items: Item[]): ItemIndex => {
+// const createIndex = (items: Item[]): ItemIndex => {
+//   return items.map((item) => ({
+//     title: item.title,
+//     url: item.slug + ".html",
+//     order: item.meta.order !== Infinity ? item.meta.order : Infinity,
+//   }));
+// };
+
+const createIndexForCollection = (items: Item[], name: string): ItemIndex => {
   return items.map((item) => ({
     title: item.title,
-    url: item.slug + ".html",
+    url: `${name === "pages" ? "/" : `/${name}/`}${item.slug}.html`,
     order: item.meta.order !== Infinity ? item.meta.order : Infinity,
   }));
 };
@@ -80,7 +88,7 @@ const buildIndex = (
 
   return {
     filename: item,
-    title: meta.title,
+    title: meta.title ? meta.title : `${name} Index`,
     slug,
     sourcePath,
     targetPath: path.resolve(targetDir, slug + ".html"),
@@ -93,7 +101,7 @@ const buildIndex = (
       ),
     },
     content,
-    itemIndex: createIndex(items),
+    itemIndex: createIndexForCollection(items, name),
   };
 };
 
@@ -153,17 +161,17 @@ export const getCollections = (
    * part of the page index
    */
   const pages: Collection = createPages(config);
-  const pagesIndex: ItemIndex = createIndex(pages.items);
+  const pagesIndex: ItemIndex = createIndexForCollection(pages.items, "pages");
   pagesIndex.push({
     title: pages.index.title,
-    url: pages.index.slug + ".html",
+    url: "/" + pages.index.slug + ".html",
     order: pages.index.meta.order !== Infinity ? pages.index.meta.order : 0,
   });
   // Include collection index pages to site pagesIndex
   collections.forEach((collection) => {
     pagesIndex.push({
       title: collection.index.title,
-      url: `${collection.name}/${collection.index.slug}.html`,
+      url: `/${collection.name}/${collection.index.slug}.html`,
       order:
         collection.index.meta.order !== Infinity
           ? collection.index.meta.order
