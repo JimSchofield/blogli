@@ -1,6 +1,6 @@
 {
   "name": "blogli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Static site generator",
   "main": "build/index.js",
   "files": ["build/*", "tsconfig.json"],
@@ -40,5 +40,8 @@
     "prismjs": "^1.21.0",
     "shelljs": "^0.8.4"
   },
-  "repository": "https://github.com/JimSchofield/blogli"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JimSchofield/blogli.git"
+  }
 }
