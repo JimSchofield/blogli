@@ -67,7 +67,7 @@ See https://github.com/JimSchofield/blogli-test-setup for an example project con
 All paths are relative to where you run blogli with the exception of `targetAssetsDir`.  `targetAssetsDir` is relative to `targetDir`, so that the assets path can be used directly in linking css, js, or other assets in the rendered html.
 
 ## Commands
-Until this project is put on npm, clone to your computer and install/link by running `npm install` and `npm link`
+Until this project is put on npm, clone to your computer and install/link by running `npm install`, `npm run build`, and `npm link`
 
 To build your blogli site, use `blogli` in the root of your site directory (where `blogli.json` is).
 
