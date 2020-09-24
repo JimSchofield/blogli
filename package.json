@@ -1,8 +1,9 @@
 {
   "name": "blogli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Static site generator",
   "main": "build/index.js",
+  "files": ["build/*", "tsconfig.json"],
   "scripts": {
     "build": "tsc",
     "watch": "npm run build -- -w",
@@ -38,5 +39,6 @@
     "markdown-it": "^11.0.0",
     "prismjs": "^1.21.0",
     "shelljs": "^0.8.4"
-  }
+  },
+  "repository": "https://github.com/JimSchofield/blogli"
 }
