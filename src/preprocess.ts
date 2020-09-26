@@ -51,20 +51,18 @@ const buildItems = (
   return items;
 };
 
-// const createIndex = (items: Item[]): ItemIndex => {
-//   return items.map((item) => ({
-//     title: item.title,
-//     url: item.slug + ".html",
-//     order: item.meta.order !== Infinity ? item.meta.order : Infinity,
-//   }));
-// };
-
 const createIndexForCollection = (items: Item[], name: string): ItemIndex => {
-  return items.map((item) => ({
-    title: item.title,
-    url: `${name === "pages" ? "/" : `/${name}/`}${item.slug}.html`,
-    order: item.meta.order !== Infinity ? item.meta.order : Infinity,
-  }));
+  return items
+    .map((item) => ({
+      title: item.title,
+      url: `${name === "pages" ? "/" : `/${name}/`}${item.slug}.html`,
+      order: item.meta.order !== 0 ? item.meta.order : 0,
+    }))
+    .sort((a, b) => a.order - b.order);
+  // After much though, I think the index pages should be sorted in order of ascending
+  // while blog posts should be sorted descending.
+  // It's much more natural to increment the order up and have that post appear first in the list.
+  // This ordering can be reversed in the index template if people feel differently.
 };
 
 const buildIndex = (
@@ -165,7 +163,7 @@ export const getCollections = (
   pagesIndex.push({
     title: pages.index.title,
     url: "/" + pages.index.slug + ".html",
-    order: pages.index.meta.order !== Infinity ? pages.index.meta.order : 0,
+    order: pages.index.meta.order !== 0 ? pages.index.meta.order : -1,
   });
   // Include collection index pages to site pagesIndex
   collections.forEach((collection) => {
@@ -173,9 +171,7 @@ export const getCollections = (
       title: collection.index.title,
       url: `/${collection.name}/${collection.index.slug}.html`,
       order:
-        collection.index.meta.order !== Infinity
-          ? collection.index.meta.order
-          : 0,
+        collection.index.meta.order !== 0 ? collection.index.meta.order : 0,
     });
   });
   const newSiteMeta = {

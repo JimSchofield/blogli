@@ -15,7 +15,7 @@ export const defaultMeta: Meta = {
   template: "templates/site.js",
   indexTemplate: "templates/indexTemplate.js",
   sitePath: "",
-  order: Infinity,
+  order: 0,
 };
 
 export interface SiteMeta {
