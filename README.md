@@ -7,6 +7,16 @@ A simple static site generator.
 - Support just enough templating for a simple content site
 - Fast and light
 
+## Install
+Run `npm install -g blogli`
+
+## Commands
+To build your blogli site, use `blogli` in the root of your site directory (where `blogli.json` is).
+
+- `blogli` - build site
+- `bligli-serve` - Build site and start `http-server`
+- `blogli-watch` - Build site, start a server, and watch files for changes
+
 ## Example:
 
 See https://github.com/JimSchofield/blogli-test-setup for an example project config and templates.
@@ -65,13 +75,6 @@ See https://github.com/JimSchofield/blogli-test-setup for an example project con
 ```
 
 All paths are relative to where you run blogli with the exception of `targetAssetsDir`.  `targetAssetsDir` is relative to `targetDir`, so that the assets path can be used directly in linking css, js, or other assets in the rendered html.
-
-## Commands
-To build your blogli site, use `blogli` in the root of your site directory (where `blogli.json` is).
-
-- `blogli` - build site
-- `bligli-serve` - Build site and start `http-server`
-- `blogli-watch` - Build site, start a server, and watch files for changes
 
 ## Todo
 Tasks and todos moved to github projects
