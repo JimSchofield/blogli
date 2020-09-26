@@ -1,6 +1,6 @@
 {
   "name": "blogli",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Static site generator",
   "main": "build/index.js",
   "files": ["build/*", "tsconfig.json"],
