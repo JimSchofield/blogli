@@ -29,7 +29,7 @@ const templatesPath = path.resolve(
   config.paths.templates ? config.paths.templates : "templates"
 );
 console.log(templatesPath);
-console.log(fs.existsSync(templatesPath) ? "Does exist" : "doesn't exist");
+console.log(fs.existsSync(templatesPath) ? "Found templates path" : "Templates path does not exist");
 const watcher = chokidar
   .watch([
     path.resolve(process.cwd(), config.paths.sourceDir),
