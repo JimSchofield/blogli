@@ -63,9 +63,11 @@ export const applyTemplate = async (
 
   const metaMarkup = getMetaMarkup(config.siteMeta, meta);
 
+  const newItemToRender: Item = { ...itemToRender, metaMarkup };
+
   return templateFunction(
     config,
-    { ...itemToRender, metaMarkup },
+    newItemToRender,
     // We need to apply the collection rendering to markup if it is a collection
     indexTemplate && collection.name !== "pages"
       ? indexTemplate({ content: markup, itemIndex: itemToRender.itemIndex })

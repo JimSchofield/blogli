@@ -18,7 +18,7 @@ export default function (
 <head>
     <meta charset="UTF-8">
     <title>${title}</title>
-    ${config.siteMeta.metaMarkup ? config.siteMeta.metaMarkup : ""}
+    ${itemToRender.metaMarkup ? itemToRender.metaMarkup : ""}
     ${
       config.prismjs
         ? `<link href="/${config.siteMeta.assetsDir}/prism.css" rel="stylesheet" type="text/css"/>`
