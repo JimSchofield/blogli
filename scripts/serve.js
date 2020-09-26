@@ -23,4 +23,4 @@ const config = JSON.parse(
 );
 const servePath = config.paths.targetDir;
 console.log("Serving from: ./" + servePath + "/");
-shell.exec("http-server " + servePath)
+shell.exec("npx http-server " + servePath);

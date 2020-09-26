@@ -49,7 +49,7 @@ console.log("+-----------------------+");
 console.log("");
 
 const servePath = config.paths.targetDir;
-const httpServer = spawn("http-server", [servePath]);
+const httpServer = spawn("npx", ["http-server", servePath]);
 httpServer.stdout.on("data", (data) => {
   console.log(data.toString());
 });
