@@ -6,14 +6,12 @@ import { upsertDir } from "./util/upsertDir";
 import { Config } from "./types/config";
 
 const copyCSSAssets = async (config: Config): Promise<void> => {
-  const theme = config.prismjs && config.prismjs.theme;
-  if (!theme) {
-    return;
-  }
+  const theme =
+    config.prismjs && config.prismjs.theme ? `-${config.prismjs.theme}` : "";
 
   const prismPath = path.dirname(require.resolve("prismjs"));
   const themeCSS = fs.readFileSync(
-    `${prismPath}/themes/prism-${theme}.css`,
+    `${prismPath}/themes/prism${theme}.css`,
     "utf8"
   );
 
